@@ -1,0 +1,39 @@
+<div class="brand">
+  <span class="logo">M</span>
+  <span class="brand-name">MEDVAULT</span>
+</div>
+
+<h2 class="title">Verify OTP</h2>
+
+<form [formGroup]="otpForm" class="otp-form">
+  <!-- Mobile -->
+  <mat-form-field class="full">
+    <mat-label>Otp</mat-label>
+    <input matInput formControlName="otp" aria-label="Otp" />
+
+    <mat-error
+      *ngIf="otpForm.get('otp')?.touched && otpForm.get('otp')?.hasError('required')"
+    >
+      Otp is required
+    </mat-error>
+
+    <mat-error
+      *ngIf="otpForm.get('otp')?.touched && otpForm.get('otp')?.hasError('pattern')"
+    >
+      Otp must be 6 digits
+    </mat-error>
+  </mat-form-field>
+
+      <!-- Submit -->
+  <div class="full">
+    <button
+      mat-raised-button
+      color="primary"
+      class="primary-btn"
+      (click)="submit()"
+      [disabled]="otpForm.invalid"
+    >
+      Verify OTP
+    </button>
+  </div>
+</form>

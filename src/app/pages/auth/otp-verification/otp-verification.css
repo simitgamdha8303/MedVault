@@ -1,0 +1,87 @@
+/* BRAND */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.logo {
+  height: 36px;
+  width: 36px;
+  border-radius: 6px;
+  background: #0b2c4d;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-name {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #0b2c4d;
+}
+
+/* TITLE */
+.title {
+  color: #0b2c4d;
+  margin-bottom: 16px;
+}
+
+/* FORM GRID */
+.otp-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* Full width fields */
+.otp-form .full {
+  grid-column: 1 / -1;
+}
+
+/*all Material fields full width */
+mat-form-field {
+  width: 100%;
+}
+
+/* Error text */
+mat-error {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Red underline for invalid touched fields */
+.mat-mdc-form-field.mat-form-field-invalid
+  .mdc-line-ripple {
+  background-color: #f44336 !important;
+}
+
+/* Red label when invalid */
+.mat-mdc-form-field.mat-form-field-invalid
+  .mdc-floating-label {
+  color: #f44336 !important;
+}
+
+@media (max-width: 768px) {
+  .otp-form {
+    grid-template-columns: 1fr;
+  }
+
+  .otp-form .full {
+    grid-column: auto;
+  }
+}
+
+/* BUTTON */
+.primary-btn {
+  width: 100%;
+  background-color: #0b2c4d !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  margin-top: 28px;
+}

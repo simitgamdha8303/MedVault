@@ -1,0 +1,106 @@
+<div class="brand">
+  <span class="logo">M</span>
+  <span class="brand-name">MEDVAULT</span>
+</div>
+
+<h2 class="title">Sign Up</h2>
+
+<form [formGroup]="signupForm" class="signup-form">
+
+  <!-- Email -->
+  <mat-form-field class="full">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" aria-label="Email"/>
+
+    <mat-error *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.hasError('required')">
+      Email is required
+    </mat-error>
+
+    <mat-error *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.hasError('email')">
+      Invalid email format
+    </mat-error>
+  </mat-form-field>
+
+  <!-- First Name -->
+  <mat-form-field>
+    <mat-label>First Name</mat-label>
+    <input matInput formControlName="firstName" aria-label="First Name"/>
+
+    <mat-error *ngIf="signupForm.get('firstName')?.touched && signupForm.get('firstName')?.hasError('required')">
+      First name is required
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Middle Name -->
+  <mat-form-field>
+    <mat-label>Middle Name</mat-label>
+    <input matInput formControlName="middleName" aria-label="Middle Name"/>
+
+    <mat-error *ngIf="signupForm.get('middleName')?.touched && signupForm.get('middleName')?.hasError('required')">
+      Middle name is required
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Last Name -->
+  <mat-form-field>
+    <mat-label>Last Name</mat-label>
+    <input matInput formControlName="lastName" aria-label="Last Name"/>
+
+    <mat-error *ngIf="signupForm.get('lastName')?.touched && signupForm.get('lastName')?.hasError('required')">
+      Last name is required
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Mobile -->
+  <mat-form-field>
+    <mat-label>Mobile</mat-label>
+    <input matInput formControlName="mobile" aria-label="Mobile"/>
+
+    <mat-error *ngIf="signupForm.get('mobile')?.touched && signupForm.get('mobile')?.hasError('required')">
+      Mobile number is required
+    </mat-error>
+
+    <mat-error *ngIf="signupForm.get('mobile')?.touched && signupForm.get('mobile')?.hasError('pattern')">
+      Mobile must be 10 digits
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Password -->
+  <mat-form-field class="full">
+    <mat-label>Password</mat-label>
+    <input matInput type="password" formControlName="password" aria-label="Password"/>
+
+    <mat-error *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.hasError('required')">
+      Password is required
+    </mat-error>
+
+    <mat-error *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.hasError('minlength')">
+      Password must be at least 8 characters
+    </mat-error>
+
+    <mat-error *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.hasError('pattern')">
+      Must contain 1 uppercase, 1 lowercase, 1 number & 1 special character
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Submit -->
+  <div class="full">
+    <button
+      mat-raised-button
+      color="primary"
+      class="primary-btn"
+      (click)="submit()"
+      [disabled]="signupForm.invalid"
+    >
+      Sign Up
+    </button>
+  </div>
+
+  <!-- Login link -->
+<div class="auth-footer">
+  <span>Already have an account?</span>
+  <a routerLink="/login" class="login-link">Log in</a>
+</div>
+
+
+</form>
