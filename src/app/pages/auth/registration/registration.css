@@ -47,6 +47,7 @@
 /*all Material fields full width */
 mat-form-field {
   width: 100%;
+  padding-top: 15px;
 }
 
 /* BUTTON */
@@ -65,14 +66,12 @@ mat-error {
 }
 
 /* Red underline for invalid touched fields */
-.mat-mdc-form-field.mat-form-field-invalid
-  .mdc-line-ripple {
+.mat-mdc-form-field.mat-form-field-invalid .mdc-line-ripple {
   background-color: #f44336 !important;
 }
 
 /* Red label when invalid */
-.mat-mdc-form-field.mat-form-field-invalid
-  .mdc-floating-label {
+.mat-mdc-form-field.mat-form-field-invalid .mdc-floating-label {
   color: #f44336 !important;
 }
 
@@ -93,14 +92,18 @@ mat-error {
   color: #555;
 }
 
-.login-link {
+.login-link,
+.switch-link {
   margin-left: 6px;
   color: #0b2c4d;
   font-weight: 600;
   text-decoration: none;
+  cursor: pointer;
 }
 
-.login-link:hover {
+.login-link:hover,
+.switch-link:hover {
   text-decoration: underline;
 }
+
 

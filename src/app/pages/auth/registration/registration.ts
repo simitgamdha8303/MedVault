@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -15,59 +15,93 @@ import { AuthService } from '../../../services/auth.service';
   standalone: true,
   imports: [
     CommonModule,
-    HttpClientModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule,
-    ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
     RouterModule,
+    MatSnackBarModule,
   ],
   templateUrl: './registration.html',
   styleUrl: './registration.css',
 })
 export class Registration {
-    private auth = inject(AuthService);
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly http = inject(HttpClient);
+  private readonly auth = inject(AuthService);
+  private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
-  // signupForm: FormGroup;
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly route = inject(ActivatedRoute);
 
-  
-    signupForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.pattern(
-            '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'
-          ),
-        ],
+  isDoctorSignup = false;
+
+  signupForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    firstName: ['', [Validators.required, Validators.pattern('^[A-Za-z]+$')]],
+    lastName: ['', [Validators.required, Validators.pattern('^[A-Za-z]+$')]],
+    mobile: ['', [Validators.required, Validators.pattern('^[2-9]{10}$')]],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(
+          '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'
+        ),
       ],
-    });
-  
+    ],
+    role: [2],
+  });
 
-  submit() {
+  ngOnInit(): void {
+    const roleParam = this.route.snapshot.queryParamMap.get('role');
+
+    this.isDoctorSignup = roleParam === 'doctor';
+
+    this.signupForm.patchValue({
+      role: this.isDoctorSignup ? 1 : 2, // 1 = Doctor, 2 = Patient
+    });
+  }
+
+  switchRole(): void {
+    this.isDoctorSignup = !this.isDoctorSignup;
+
+    this.signupForm.patchValue({
+      role: this.isDoctorSignup ? 1 : 2,
+    });
+
+    this.router.navigate([], {
+      queryParams: { role: this.isDoctorSignup ? 'doctor' : null },
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  submit(): void {
     if (this.signupForm.invalid) {
       this.signupForm.markAllAsTouched();
       return;
     }
 
-    // this.http.post('http://localhost:5128/api/User/register', this.signupForm.value).subscribe({
-      this.auth.register(this.signupForm.value).subscribe({
-      next: (response) => {
-        console.log('Registration successful', response);
+    this.auth.register(this.signupForm.value).subscribe({
+      next: () => {
+        this.snackBar.open('Registration successful', 'Close', {
+          duration: 3000,
+          verticalPosition: 'top',
+        });
+
         this.router.navigate(['/login']);
       },
       error: (err) => {
-        const response = err.error;
-        console.log(response);
+        const apiError = err?.error;
+
+        const message =
+          apiError?.Errors?.[0] || apiError?.Message || 'Registration failed. Try again.';
+
+        this.snackBar.open(message, 'Close', {
+          duration: 3000,
+          verticalPosition: 'top',
+          panelClass: ['error-snackbar'],
+        });
       },
     });
   }

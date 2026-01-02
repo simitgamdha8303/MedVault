@@ -85,3 +85,7 @@ mat-error {
   font-weight: 600;
   margin-top: 28px;
 }
+
+.secondary-btn{
+  width: 100%;
+}

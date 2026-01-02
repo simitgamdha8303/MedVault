@@ -1,79 +1,56 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { AuthService } from '../../../services/auth.service';
-
-interface LoginResponse {
-  token?: string;
-  userId?: number;
-  requiresOtp: boolean;
-}
-
-interface ApiResponse<T> {
-  succeeded: boolean;
-  statusCode: number;
-  message: string;
-  data: T;
-}
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
     CommonModule,
-    HttpClientModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule,
-    ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
     RouterModule,
+    MatSnackBarModule,
   ],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
 export class Login {
-  private auth = inject(AuthService);
-  loginForm: FormGroup;
+  private readonly auth = inject(AuthService);
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly snackBar = inject(MatSnackBar);
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
-    this.loginForm = this.fb.group({
-      identifier: ['', [Validators.required, Validators.email]],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.pattern(
-            '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'
-          ),
-        ],
-      ],
-    });
-  }
+  loginForm = this.fb.group({
+    email: ['', Validators.required], 
+    password: ['', [Validators.required]],
+  });
 
-  submit() {
+  submit(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     }
 
-    // this.http.post<ApiResponse<LoginResponse>>('http://localhost:5128/api/Auth/login', this.loginForm.value).subscribe({
-     this.auth.login(this.loginForm.value).subscribe({
+    this.auth.login(this.loginForm.value).subscribe({
       next: (res) => {
+        this.snackBar.open('Login successful', 'Close', {
+          duration: 2000,
+          verticalPosition: 'top',
+          panelClass: ['success-snackbar'],
+        });
+
         if (res.data.requiresOtp) {
           sessionStorage.setItem('otpUserId', String(res.data.userId));
           this.router.navigate(['/otp-verification']);
@@ -82,7 +59,20 @@ export class Login {
           this.router.navigate(['/dashboard']);
         }
       },
-      error: (err) => console.error('Login failed', err),
+      error: (err) => {
+        const apiError = err?.error;
+
+        const message =
+          apiError?.Errors?.[0] || 
+          apiError?.Message ||
+          'Invalid email or password'; 
+
+        this.snackBar.open(message, 'Close', {
+          duration: 3000,
+          verticalPosition: 'top',
+          panelClass: ['error-snackbar'],
+        });
+      },
     });
   }
 }
