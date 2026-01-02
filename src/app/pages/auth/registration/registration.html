@@ -31,16 +31,6 @@
     </mat-error>
   </mat-form-field>
 
-  <!-- Middle Name -->
-  <mat-form-field>
-    <mat-label>Middle Name</mat-label>
-    <input matInput formControlName="middleName" aria-label="Middle Name"/>
-
-    <mat-error *ngIf="signupForm.get('middleName')?.touched && signupForm.get('middleName')?.hasError('required')">
-      Middle name is required
-    </mat-error>
-  </mat-form-field>
-
   <!-- Last Name -->
   <mat-form-field>
     <mat-label>Last Name</mat-label>
@@ -52,7 +42,7 @@
   </mat-form-field>
 
   <!-- Mobile -->
-  <mat-form-field>
+  <mat-form-field class="full">
     <mat-label>Mobile</mat-label>
     <input matInput formControlName="mobile" aria-label="Mobile"/>
 

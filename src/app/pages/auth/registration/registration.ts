@@ -38,7 +38,6 @@ export class Registration {
     signupForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       firstName: ['', Validators.required],
-      middleName: ['', Validators.required],
       lastName: ['', Validators.required],
       mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       password: [
