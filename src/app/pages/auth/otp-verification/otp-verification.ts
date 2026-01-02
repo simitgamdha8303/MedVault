@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 interface ApiResponse<T> {
   succeeded: boolean;
@@ -40,6 +41,9 @@ interface ApiResponse<T> {
   styleUrl: './otp-verification.css',
 })
 export class OtpVerification {
+
+  private auth = inject(AuthService);
+
   otpForm: FormGroup;
   constructor(
     private fb: FormBuilder,
@@ -77,6 +81,28 @@ export class OtpVerification {
             horizontalPosition: 'center',
             verticalPosition: 'top',
             panelClass: ['error-snackbar'],
+          });
+        },
+      });
+  }
+
+  resendOtp(): void {
+    const userId = sessionStorage.getItem('otpUserId');
+
+    this.http
+      // .post<ApiResponse<null>>('http://localhost:5128/api/Auth/resend-otp', { userId })
+    // .subscribe({
+     this.auth.verifyOtp(this.otpForm.value).subscribe({
+        next: (res) => {
+          this.snackBar.open(res.message, 'Close', {
+            duration: 3000,
+            verticalPosition: 'top',
+          });
+        },
+        error: () => {
+          this.snackBar.open('Failed to resend OTP', 'Close', {
+            duration: 3000,
+            verticalPosition: 'top',
           });
         },
       });

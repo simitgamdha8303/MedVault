@@ -5,7 +5,7 @@
 
 <h2 class="title">Sign Up</h2>
 
-<form [formGroup]="signupForm" class="signup-form">
+<form [formGroup]="signupForm" (ngSubmit)="submit()" class="signup-form">
 
   <!-- Email -->
   <mat-form-field class="full">
@@ -89,8 +89,7 @@
       mat-raised-button
       color="primary"
       class="primary-btn"
-      (click)="submit()"
-      [disabled]="signupForm.invalid"
+      type="submit"
     >
       Sign Up
     </button>

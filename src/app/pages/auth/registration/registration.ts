@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -27,6 +28,7 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './registration.css',
 })
 export class Registration {
+    private auth = inject(AuthService);
   private readonly formBuilder = inject(FormBuilder);
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
@@ -58,7 +60,8 @@ export class Registration {
       return;
     }
 
-    this.http.post('http://localhost:5128/api/User/register', this.signupForm.value).subscribe({
+    // this.http.post('http://localhost:5128/api/User/register', this.signupForm.value).subscribe({
+      this.auth.register(this.signupForm.value).subscribe({
       next: (response) => {
         console.log('Registration successful', response);
         this.router.navigate(['/login']);

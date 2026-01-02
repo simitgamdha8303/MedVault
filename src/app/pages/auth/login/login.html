@@ -5,19 +5,19 @@
 
 <h2 class="title">Login</h2>
 
-<form [formGroup]="loginForm" class="login-form">
+<form [formGroup]="loginForm"  (ngSubmit)="submit()" class="login-form">
   <!-- Email -->
   <mat-form-field class="full">
     <mat-label>Email</mat-label>
     <input matInput formControlName="identifier" aria-label="Email" />
 
     <mat-error
-      *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.hasError('required')"
+      *ngIf="loginForm.get('identifier')?.touched && loginForm.get('identifier')?.hasError('required')"
     >
       Email is required
     </mat-error>
 
-    <mat-error *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.hasError('email')">
+    <mat-error *ngIf="loginForm.get('identifier')?.touched && loginForm.get('identifier')?.hasError('identifier')">
       Invalid email format
     </mat-error>
   </mat-form-field>
@@ -56,8 +56,7 @@
       mat-raised-button
       color="primary"
       class="primary-btn"
-      (click)="submit()"
-      [disabled]="loginForm.invalid"
+      type="submit"
     >
       Log In
     </button>

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 interface LoginResponse {
   token?: string;
@@ -45,6 +46,7 @@ interface ApiResponse<T> {
   styleUrl: './login.css',
 })
 export class Login {
+  private auth = inject(AuthService);
   loginForm: FormGroup;
 
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
@@ -69,7 +71,8 @@ export class Login {
       return;
     }
 
-    this.http.post<ApiResponse<LoginResponse>>('http://localhost:5128/api/Auth/login', this.loginForm.value).subscribe({
+    // this.http.post<ApiResponse<LoginResponse>>('http://localhost:5128/api/Auth/login', this.loginForm.value).subscribe({
+     this.auth.login(this.loginForm.value).subscribe({
       next: (res) => {
         if (res.data.requiresOtp) {
           sessionStorage.setItem('otpUserId', String(res.data.userId));
