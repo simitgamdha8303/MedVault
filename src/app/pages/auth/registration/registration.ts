@@ -59,19 +59,6 @@ export class Registration {
     });
   }
 
-  // switchRole(): void {
-  //   this.isDoctorSignup = !this.isDoctorSignup;
-
-  //   this.signupForm.patchValue({
-  //     role: this.isDoctorSignup ? 1 : 2,
-  //   });
-
-  //   this.router.navigate([], {
-  //     queryParams: { role: this.isDoctorSignup ? 'doctor' : null },
-  //     queryParamsHandling: 'merge',
-  //   });
-  // }
-
   submit(): void {
     if (this.signupForm.invalid) {
       this.signupForm.markAllAsTouched();

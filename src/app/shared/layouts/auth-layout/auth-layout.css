@@ -41,7 +41,7 @@
   transform: scale(1.05);
 }
 
-/* DARK OVERLAY (MATCHES IMAGE) */
+/* DARK OVERLAY */
 .overlay {
   position: absolute;
   inset: 0;

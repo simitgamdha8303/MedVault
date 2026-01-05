@@ -16,10 +16,7 @@
     >
       Email is required
     </mat-error>
-
-    <mat-error *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.hasError('email')">
-      Invalid email format
-    </mat-error>
+    
   </mat-form-field>
 
   <!-- Password -->
@@ -39,7 +36,7 @@
     <button mat-raised-button color="primary" class="primary-btn" type="submit">Log In</button>
   </div>
 
-  <!-- Role switch (link style like auth-footer) -->
+  <!-- Role switch -->
   <div class="auth-footer">
     <span>
       {{ selectedRole === 'patient' ? 'Are you a doctor?' : 'Are you a patient?' }}

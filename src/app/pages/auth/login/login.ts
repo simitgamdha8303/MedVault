@@ -39,10 +39,6 @@ export class Login {
     this.selectedRole = this.selectedRole === 'patient' ? 'doctor' : 'patient';
   }
 
-  loginAs(role: 'doctor' | 'patient'): void {
-    this.selectedRole = role;
-  }
-
   loginForm = this.fb.group({
     email: ['', Validators.required],
     password: ['', [Validators.required]],

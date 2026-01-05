@@ -44,7 +44,7 @@
   grid-column: 1 / -1;
 }
 
-/*all Material fields full width */
+/*Material fields full width */
 mat-form-field {
   width: 100%;
 }
