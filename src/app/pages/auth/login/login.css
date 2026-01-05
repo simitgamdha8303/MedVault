@@ -103,3 +103,24 @@ mat-error {
 .signup-link:hover {
   text-decoration: underline;
 }
+
+.auth-footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+}
+
+.login-link,
+.switch-link {
+  margin-left: 6px;
+  color: #0b2c4d;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.login-link:hover,
+.switch-link:hover {
+  text-decoration: underline;
+}

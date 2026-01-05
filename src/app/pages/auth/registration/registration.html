@@ -5,7 +5,7 @@
 
 <!-- <h2 class="title">Sign Up</h2> -->
 <h2 class="title">
-  {{ isDoctorSignup ? 'Doctor Sign Up' : 'Sign Up' }}
+  Sign Up
 </h2>
 
 <form [formGroup]="signupForm" (ngSubmit)="submit()" class="signup-form">
@@ -115,22 +115,13 @@
 
   <!-- Footer -->
   <div class="auth-footer">
-    <!-- When Patient -->
-    <ng-container *ngIf="!isDoctorSignup">
-      <span>Are you a doctor?</span>
-      <a class="switch-link" (click)="switchRole()"> Sign up as Doctor </a>
-    </ng-container>
-
-    <!-- When Doctor -->
-    <ng-container *ngIf="isDoctorSignup">
-      <span>Not a doctor?</span>
-      <a class="switch-link" (click)="switchRole()"> Sign up as Patient </a>
-    </ng-container>
-  </div>
 
   <!-- Login link always visible -->
   <div class="auth-footer">
     <span>Already have an account?</span>
     <a routerLink="/login" class="login-link">Log in</a>
   </div>
+
+  </div>
+
 </form>

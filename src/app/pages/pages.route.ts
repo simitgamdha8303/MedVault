@@ -8,6 +8,7 @@ import { OtpVerification } from './auth/otp-verification/otp-verification';
 
 import { OtpGuard } from '../guards/otp.guard';
 import { Dashboard } from './dashboard/dashboard';
+import { authGuard } from '../guards/auth.guard';
 
 export const PAGES_ROUTES: Routes = [
   {
@@ -25,9 +26,10 @@ export const PAGES_ROUTES: Routes = [
         component: OtpVerification,
         canActivate: [OtpGuard],
         },
-      
-        { path: 'dashboard', component: Dashboard },
-
+  
     ],
   },
+
+  { path: 'dashboard', component: Dashboard, canActivate: [authGuard] },
+
 ];

@@ -33,8 +33,6 @@ export class Registration {
   private readonly snackBar = inject(MatSnackBar);
   private readonly route = inject(ActivatedRoute);
 
-  isDoctorSignup = false;
-
   signupForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     firstName: ['', [Validators.required, Validators.pattern('^[A-Za-z]+$')]],
@@ -54,27 +52,25 @@ export class Registration {
   });
 
   ngOnInit(): void {
-    const roleParam = this.route.snapshot.queryParamMap.get('role');
-
-    this.isDoctorSignup = roleParam === 'doctor';
+    const role = this.route.snapshot.queryParamMap.get('role');
 
     this.signupForm.patchValue({
-      role: this.isDoctorSignup ? 1 : 2, // 1 = Doctor, 2 = Patient
+      role: role === 'doctor' ? 1 : 2, // 1 = Doctor, 2 = Patient
     });
   }
 
-  switchRole(): void {
-    this.isDoctorSignup = !this.isDoctorSignup;
+  // switchRole(): void {
+  //   this.isDoctorSignup = !this.isDoctorSignup;
 
-    this.signupForm.patchValue({
-      role: this.isDoctorSignup ? 1 : 2,
-    });
+  //   this.signupForm.patchValue({
+  //     role: this.isDoctorSignup ? 1 : 2,
+  //   });
 
-    this.router.navigate([], {
-      queryParams: { role: this.isDoctorSignup ? 'doctor' : null },
-      queryParamsHandling: 'merge',
-    });
-  }
+  //   this.router.navigate([], {
+  //     queryParams: { role: this.isDoctorSignup ? 'doctor' : null },
+  //     queryParamsHandling: 'merge',
+  //   });
+  // }
 
   submit(): void {
     if (this.signupForm.invalid) {

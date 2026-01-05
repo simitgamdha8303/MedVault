@@ -35,6 +35,7 @@ export class OtpVerification {
   otpForm: FormGroup = this.fb.group({
     otp: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
     userId: [sessionStorage.getItem('otpUserId'), Validators.required],
+    role: [Number(sessionStorage.getItem('otpRole')), Validators.required],
   });
 
   submit(): void {
@@ -53,6 +54,7 @@ export class OtpVerification {
 
         localStorage.setItem('token', res.data);
         sessionStorage.removeItem('otpUserId');
+        sessionStorage.removeItem('otpRole');
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {

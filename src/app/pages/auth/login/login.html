@@ -39,9 +39,20 @@
     <button mat-raised-button color="primary" class="primary-btn" type="submit">Log In</button>
   </div>
 
+  <!-- Role switch (link style like auth-footer) -->
+  <div class="auth-footer">
+    <span>
+      {{ selectedRole === 'patient' ? 'Are you a doctor?' : 'Are you a patient?' }}
+    </span>
+
+    <a class="signup-link" (click)="switchRole()">
+      {{ selectedRole === 'patient' ? 'Login as Doctor' : 'Login as Patient' }}
+    </a>
+  </div>
+
   <!-- Sign up link -->
   <div class="auth-footer">
     <span>Don’t have an account?</span>
-    <a routerLink="/register" class="signup-link">Sign up</a>
+    <a (click)="goToRegister()" class="signup-link">Sign up</a>
   </div>
 </form>

@@ -9,6 +9,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AuthService } from '../../../services/auth.service';
+import { LoginRequest } from '../../../interfaces/login-request';
 
 @Component({
   selector: 'app-login',
@@ -32,10 +33,26 @@ export class Login {
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
 
+  selectedRole: 'doctor' | 'patient' = 'patient';
+
+  switchRole(): void {
+    this.selectedRole = this.selectedRole === 'patient' ? 'doctor' : 'patient';
+  }
+
+  loginAs(role: 'doctor' | 'patient'): void {
+    this.selectedRole = role;
+  }
+
   loginForm = this.fb.group({
-    email: ['', Validators.required], 
+    email: ['', Validators.required],
     password: ['', [Validators.required]],
   });
+
+  goToRegister(): void {
+    this.router.navigate(['/register'], {
+      queryParams: { role: this.selectedRole },
+    });
+  }
 
   submit(): void {
     if (this.loginForm.invalid) {
@@ -43,7 +60,13 @@ export class Login {
       return;
     }
 
-    this.auth.login(this.loginForm.value).subscribe({
+    const payload: LoginRequest = {
+      email: this.loginForm.value.email!,
+      password: this.loginForm.value.password!,
+      role: this.selectedRole === 'doctor' ? 1 : 2,
+    };
+
+    this.auth.login(payload).subscribe({
       next: (res) => {
         this.snackBar.open('Login successful', 'Close', {
           duration: 2000,
@@ -53,6 +76,7 @@ export class Login {
 
         if (res.data.requiresOtp) {
           sessionStorage.setItem('otpUserId', String(res.data.userId));
+          sessionStorage.setItem('otpRole', String(payload.role));
           this.router.navigate(['/otp-verification']);
         } else {
           localStorage.setItem('token', res.data.token!);
@@ -62,10 +86,7 @@ export class Login {
       error: (err) => {
         const apiError = err?.error;
 
-        const message =
-          apiError?.Errors?.[0] || 
-          apiError?.Message ||
-          'Invalid email or password'; 
+        const message = apiError?.Errors?.[0] || apiError?.Message || 'Invalid email or password';
 
         this.snackBar.open(message, 'Close', {
           duration: 3000,
