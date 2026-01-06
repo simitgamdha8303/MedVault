@@ -45,7 +45,7 @@ export class Login {
   });
 
   goToRegister(): void {
-    this.router.navigate(['/register'], {
+    this.router.navigate(['/auth/register'], {
       queryParams: { role: this.selectedRole },
     });
   }
@@ -73,7 +73,7 @@ export class Login {
         if (res.data.requiresOtp) {
           sessionStorage.setItem('otpUserId', String(res.data.userId));
           sessionStorage.setItem('otpRole', String(payload.role));
-          this.router.navigate(['/otp-verification']);
+          this.router.navigate(['/auth/otp-verification']);
         } else {
           localStorage.setItem('token', res.data.token!);
           this.router.navigate(['/dashboard']);

@@ -9,7 +9,7 @@ export class OtpGuard implements CanActivate {
     const userId = sessionStorage.getItem('otpUserId');
 
     if (!userId) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/auth/login']);
       return false;
     }
 

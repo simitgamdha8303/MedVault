@@ -72,7 +72,7 @@ export class Registration {
           verticalPosition: 'top',
         });
 
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
       },
       error: (err) => {
         const apiError = err?.error;

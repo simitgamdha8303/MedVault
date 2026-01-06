@@ -1,0 +1,11 @@
+<app-header (toggleSidebar)="toggleSidebar()"></app-header>
+
+<div class="app-layout">
+  @if (isSidebarOpen) {
+  <app-sidebar></app-sidebar>
+  }
+
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

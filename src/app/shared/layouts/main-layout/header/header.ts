@@ -1,0 +1,27 @@
+import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-header',
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule],
+  templateUrl: './header.html',
+  styleUrl: './header.css',
+})
+export class Header {
+  private readonly router = inject(Router);
+
+  logout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/auth/login']);
+  }
+
+  @Output() toggleSidebar = new EventEmitter<void>();
+
+  onToggle() {
+    this.toggleSidebar.emit();
+  }
+}
