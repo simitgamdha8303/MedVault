@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../../../services/auth.service';
 import { ApiResponse } from '../../../interfaces/api-response';
+import { OtpResponse } from '../../../interfaces/otp-response';
 
 @Component({
   selector: 'app-otp-verification',
@@ -45,17 +46,27 @@ export class OtpVerification {
     }
 
     this.auth.verifyOtp(this.otpForm.value).subscribe({
-      next: (res: ApiResponse<string>) => {
+      next: (res: ApiResponse<OtpResponse>) => {
         this.snackBar.open('OTP verified successfully', 'Close', {
           duration: 2000,
           verticalPosition: 'top',
           panelClass: ['success-snackbar'],
         });
 
-        localStorage.setItem('token', res.data);
+        localStorage.setItem('token', res.data.token);
         sessionStorage.removeItem('otpUserId');
         sessionStorage.removeItem('otpRole');
-        this.router.navigate(['/dashboard']);
+        const userRole = this.auth.getUserRole();
+
+        if (res.data.requiresProfile) {
+          this.router.navigate(['/dashboard']);
+        } else {
+          if (userRole == 'Doctor') {
+            this.router.navigate(['/doctorprofile']);
+          } else {
+            this.router.navigate(['/patientprofile']);
+          }
+        }
       },
       error: (err) => {
         const apiError = err?.error;

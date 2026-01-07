@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApiResponse } from '../interfaces/api-response';
 import { LoginResponse } from '../interfaces/login-response';
 import { environment } from '../../environments/environment';
+import { OtpResponse } from '../interfaces/otp-response';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -16,7 +17,7 @@ export class AuthService {
   }
 
   verifyOtp(payload: any) {
-    return this.http.post<ApiResponse<string>>(`${this.authUrl}/verify-otp`, payload);
+    return this.http.post<ApiResponse<OtpResponse>>(`${this.authUrl}/verify-otp`, payload);
   }
 
   resendOtp(userId: string) {
@@ -25,5 +26,13 @@ export class AuthService {
 
   register(payload: any) {
     return this.http.post(`${this.userUrl}/register`, payload);
+  }
+
+  getUserRole(): string | null {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || null;
   }
 }

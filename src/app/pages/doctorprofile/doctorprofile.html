@@ -1,0 +1,74 @@
+<div class="brand">
+  <span class="logo">M</span>
+  <span class="brand-name">MEDVAULT</span>
+</div>
+
+<h2 class="title">Doctor Profile</h2>
+
+<p class="caption">Complete your profile.</p>
+
+<form class="doctorProfileForm" [formGroup]="doctorProfileForm" (ngSubmit)="onSubmit()">
+  <!-- Hospital -->
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Hospital</mat-label>
+    <mat-select formControlName="hospitalId">
+      <mat-option *ngFor="let hospital of hospitals" [value]="hospital.id">
+        {{ hospital.name }}
+      </mat-option>
+    </mat-select>
+
+    <mat-error *ngIf="doctorProfileForm.get('hospitalId')?.invalid">
+      Hospital is required
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Specialization -->
+  <mat-form-field>
+    <mat-label>Specialization</mat-label>
+    <input matInput formControlName="specialization" aria-label="specialization" />
+    <mat-error
+      *ngIf="
+        doctorProfileForm.get('specialization')?.touched &&
+        doctorProfileForm.get('specialization')?.hasError('required')
+      "
+    >
+      Specialization is required
+    </mat-error>
+  </mat-form-field>
+
+  <!-- LicenseNumber -->
+  <mat-form-field>
+    <mat-label>LicenseNumber</mat-label>
+    <input matInput formControlName="licenseNumber" aria-label="licenseNumber" />
+    <mat-error
+      *ngIf="
+        doctorProfileForm.get('licenseNumber')?.touched &&
+        doctorProfileForm.get('licenseNumber')?.hasError('required')
+      "
+    >
+      Specialization is required
+    </mat-error>
+
+    <mat-error
+      *ngIf="
+        doctorProfileForm.get('licenseNumber')?.touched &&
+        doctorProfileForm.get('licenseNumber')?.hasError('pattern')
+      "
+    >
+      Invalid license format (e.g. MH12345)
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Submit -->
+  <div class="full">
+    <button
+      mat-raised-button
+      color="primary"
+      class="primary-btn"
+      type="submit"
+      [disabled]="doctorProfileForm.invalid"
+    >
+      Submit
+    </button>
+  </div>
+</form>

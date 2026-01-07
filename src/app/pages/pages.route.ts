@@ -8,6 +8,8 @@ import { Dashboard } from './dashboard/dashboard';
 import { authGuard } from '../guards/auth.guard';
 import { BaseLayout } from '../shared/layouts/main-layout/base-layout/base-layout';
 import { guestGuard } from '../guards/guest.guard';
+import { Doctorprofile } from './doctorprofile/doctorprofile';
+import { Patientprofile } from './patientprofile/patientprofile';
 
 export const PAGES_ROUTES: Routes = [
   {
@@ -17,7 +19,7 @@ export const PAGES_ROUTES: Routes = [
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
 
-      { path: 'register', component: Registration},
+      { path: 'register', component: Registration },
 
       { path: 'login', component: Login },
 
@@ -37,5 +39,21 @@ export const PAGES_ROUTES: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: Dashboard },
     ],
+  },
+
+  {
+    path: 'doctorprofile',
+    component: AuthLayout,
+    canActivate: [authGuard],
+    data: { role: 'Doctor' },
+    children: [{ path: '', component: Doctorprofile }],
+  },
+
+  {
+    path: 'patientprofile',
+    component: AuthLayout,
+    canActivate: [authGuard],
+    data: { role: 'Patient' },
+    children: [{ path: '', component: Patientprofile }],
   },
 ];

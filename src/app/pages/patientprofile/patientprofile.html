@@ -1,0 +1,70 @@
+<div class="brand">
+  <span class="logo">M</span>
+  <span class="brand-name">MEDVAULT</span>
+</div>
+
+<h2 class="title">Patient Profile</h2>
+
+<p class="caption">Complete your profile.</p>
+
+<form class="patientProfileForm" [formGroup]="patientProfileForm" (ngSubmit)="onSubmit()">
+  <!-- Date of Birth -->
+  <mat-form-field class="full">
+    <mat-label>Date of Birth</mat-label>
+    <input matInput type="date" formControlName="dateOfBirth" aria-label="dateOfBirth"/>
+  </mat-form-field>
+
+  <!-- Gender -->
+  <mat-form-field>
+    <mat-label>Gender</mat-label>
+    <mat-select formControlName="gender">
+      <mat-option *ngFor="let g of genders" [value]="g.id">
+        {{ g.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Blood Group -->
+  <mat-form-field>
+    <mat-label>Blood Group</mat-label>
+    <mat-select formControlName="bloodGroup">
+      <mat-option *ngFor="let b of bloodGroups" [value]="b.id">
+        {{ b.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Allergies -->
+  <mat-form-field class="full">
+    <mat-label>Allergies</mat-label>
+    <input matInput formControlName="allergies" aria-label="allergies" />
+  </mat-form-field>
+
+  <!-- Chronic Condition -->
+  <mat-form-field class="full">
+    <mat-label>Chronic Condition</mat-label>
+    <input matInput formControlName="chronicCondition" aria-label="chronicCondition" />
+  </mat-form-field>
+
+  <!-- Emergency Contact Name -->
+  <mat-form-field>
+    <mat-label>Emergency Contact Name</mat-label>
+    <input matInput formControlName="emergencyContactName" aria-label="emergencyContactName" />
+  </mat-form-field>
+
+  <!-- Emergency Contact Phone -->
+  <mat-form-field>
+    <mat-label>Emergency Contact Phone</mat-label>
+    <input matInput formControlName="emergencyContactPhone" aria-label="emergencyContactPhone" />
+    <mat-error *ngIf="patientProfileForm.get('emergencyContactPhone')?.hasError('pattern')">
+      Enter a valid 10-digit number
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Submit -->
+  <div class="full">
+    <button mat-raised-button color="primary" type="submit" [disabled]="patientProfileForm.invalid">
+      Submit
+    </button>
+  </div>
+</form>

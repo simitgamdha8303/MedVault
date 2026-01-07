@@ -76,7 +76,16 @@ export class Login {
           this.router.navigate(['/auth/otp-verification']);
         } else {
           localStorage.setItem('token', res.data.token!);
-          this.router.navigate(['/dashboard']);
+          const userRole = this.auth.getUserRole();
+          if (res.data.requiresProfile) {
+            this.router.navigate(['/dashboard']);
+          } else {
+            if (userRole == "Doctor") {
+              this.router.navigate(['/doctorprofile']);
+            } else {
+              this.router.navigate(['/patientprofile']);
+            }
+          }
         }
       },
       error: (err) => {
