@@ -11,7 +11,7 @@
   <!-- Date of Birth -->
   <mat-form-field class="full">
     <mat-label>Date of Birth</mat-label>
-    <input matInput type="date" formControlName="dateOfBirth" aria-label="dateOfBirth"/>
+    <input matInput type="date" formControlName="dateOfBirth" aria-label="dateOfBirth" />
   </mat-form-field>
 
   <!-- Gender -->
@@ -63,7 +63,12 @@
 
   <!-- Submit -->
   <div class="full">
-    <button mat-raised-button color="primary" type="submit" [disabled]="patientProfileForm.invalid">
+    <button
+      mat-raised-button
+      class="primary-btn"
+      type="submit"
+      [disabled]="patientProfileForm.invalid"
+    >
       Submit
     </button>
   </div>

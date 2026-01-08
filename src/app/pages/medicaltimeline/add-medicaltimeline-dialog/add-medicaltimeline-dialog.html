@@ -1,0 +1,63 @@
+<h2 mat-dialog-title>Add Medical Timeline</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <!-- Doctor dropdown -->
+    <mat-form-field class="full-width">
+      <mat-label>Select Doctor</mat-label>
+      <mat-select
+        formControlName="doctorProfileId"
+        (selectionChange)="onDoctorSelect($event.value)"
+      >
+        <mat-option [value]="null">Other / Not Listed</mat-option>
+        <mat-option *ngFor="let d of doctors" [value]="d.id">
+          {{ d.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Manual doctor name -->
+    <mat-form-field class="full-width">
+      <mat-label>Doctor Name (if not listed)</mat-label>
+      <input matInput formControlName="doctorName" aria-label="doctorName" />
+    </mat-form-field>
+
+    <!-- Checkup type -->
+    <mat-form-field class="full-width">
+      <mat-label>Checkup Type</mat-label>
+      <mat-select formControlName="checkupType" required>
+        <mat-option *ngFor="let c of checkupTypes" [value]="c.id">
+          {{ c.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Event date -->
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Event Date</mat-label>
+
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="eventDate"
+        (click)="picker.open()"
+        readonly
+        aria-label="date"
+      />
+
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Notes -->
+    <mat-form-field class="full-width">
+      <mat-label>Notes</mat-label>
+      <textarea matInput rows="3" formControlName="notes" aria-label="notes"></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="close()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Save</button>
+  </mat-dialog-actions>
+</form>

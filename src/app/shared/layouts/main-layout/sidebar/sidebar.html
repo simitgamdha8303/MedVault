@@ -4,9 +4,9 @@
       <mat-icon>dashboard</mat-icon>
       <span>Dashboard</span>
     </a>
-     <a routerLink="/settings" routerLinkActive="active">
-      <mat-icon>settings</mat-icon>
-      <span>settings</span>
+    <a *ngIf="userRole === 'Patient'" routerLink="/medicaltimeline" routerLinkActive="active">
+      <mat-icon>view_timeline</mat-icon>
+      <span>MedicalTimeline</span>
     </a>
   </nav>
 </aside>

@@ -7,10 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router, RouterModule } from '@angular/router';
 import { Hospital } from '../../interfaces/hospital';
-import { HospitalService } from '../../services/hospital.service';
 import { MatSelectModule } from '@angular/material/select';
 import { DoctorProfileService } from '../../services/doctor-profile.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { LookupService } from '../../services/lookup.service';
 
 @Component({
   selector: 'app-doctorprofile',
@@ -29,7 +29,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class Doctorprofile implements OnInit {
   private fb = inject(FormBuilder);
-  private hospitalService = inject(HospitalService);
+  private lookupService = inject(LookupService);
   private doctorProfileService = inject(DoctorProfileService);
   private snackBar = inject(MatSnackBar);
   private cdr = inject(ChangeDetectorRef);
@@ -48,7 +48,7 @@ export class Doctorprofile implements OnInit {
   }
 
   loadHospitals() {
-    this.hospitalService.getHospitals().subscribe((res) => {
+    this.lookupService.getHospitals().subscribe((res) => {
       this.hospitals = res.data;
       this.cdr.detectChanges();
     });

@@ -10,6 +10,7 @@ import { BaseLayout } from '../shared/layouts/main-layout/base-layout/base-layou
 import { guestGuard } from '../guards/guest.guard';
 import { Doctorprofile } from './doctorprofile/doctorprofile';
 import { Patientprofile } from './patientprofile/patientprofile';
+import { Medicaltimeline } from './medicaltimeline/medicaltimeline';
 
 export const PAGES_ROUTES: Routes = [
   {
@@ -38,6 +39,7 @@ export const PAGES_ROUTES: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: Dashboard },
+      { path: 'medicaltimeline',canActivate: [authGuard], component: Medicaltimeline, data: { role: 'Patient' } },
     ],
   },
 

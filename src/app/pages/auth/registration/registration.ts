@@ -51,8 +51,12 @@ export class Registration {
     role: [2],
   });
 
+  selectedRole: 'doctor' | 'patient' = 'patient';
+
   ngOnInit(): void {
     const role = this.route.snapshot.queryParamMap.get('role');
+
+    this.selectedRole = role === 'doctor' ? 'doctor' : 'patient';
 
     this.signupForm.patchValue({
       role: role === 'doctor' ? 1 : 2, // 1 = Doctor, 2 = Patient

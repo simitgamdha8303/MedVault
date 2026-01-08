@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -32,6 +32,7 @@ export class Patientprofile implements OnInit {
   private lookupService = inject(LookupService);
   private patientProfileService = inject(PatientprofileService);
   private snackBar = inject(MatSnackBar);
+   private cdr = inject(ChangeDetectorRef);
   private readonly router = inject(Router);
 
   genders: EnumLookup[] = [];
@@ -54,10 +55,12 @@ export class Patientprofile implements OnInit {
   loadLookups() {
     this.lookupService.getGenders().subscribe((res) => {
       this.genders = res.data;
+      this.cdr.detectChanges();
     });
 
     this.lookupService.getBloodGroups().subscribe((res) => {
       this.bloodGroups = res.data;
+      this.cdr.detectChanges();
     });
   }
 
@@ -68,7 +71,6 @@ export class Patientprofile implements OnInit {
 
     const payload = {
       ...formValue,
-      // dateOfBirth: this.toDateOnly(formValue.dateOfBirth!),
     };
 
     this.patientProfileService.create(payload).subscribe({
@@ -86,14 +88,5 @@ export class Patientprofile implements OnInit {
         });
       },
     });
-  }
-
-  private toDateOnly(date: string) {
-    const d = new Date(date);
-    return {
-      year: d.getFullYear(),
-      month: d.getMonth() + 1,
-      day: d.getDate(),
-    };
   }
 }

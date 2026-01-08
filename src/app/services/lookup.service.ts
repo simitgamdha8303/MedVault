@@ -6,7 +6,7 @@ import { EnumLookup } from '../interfaces/enum-lookup';
 
 @Injectable({ providedIn: 'root' })
 export class LookupService {
-  private baseUrl = `${environment.apiBaseUrl}/patient-profile`;
+  private baseUrl = `${environment.apiBaseUrl}/Lookup`;
 
   constructor(private http: HttpClient) {}
 
@@ -16,5 +16,17 @@ export class LookupService {
 
   getBloodGroups() {
     return this.http.get<ApiResponse<EnumLookup[]>>(`${this.baseUrl}/blood-groups`);
+  }
+
+  getCheckupTypes() {
+    return this.http.get<ApiResponse<EnumLookup[]>>(`${this.baseUrl}/checkup-types`);
+  }
+
+  getAllDoctors() {
+    return this.http.get<ApiResponse<any>>(`${this.baseUrl}/doctors`);
+  }
+
+  getHospitals() {
+    return this.http.get<any>(`${this.baseUrl}/hospitals`);
   }
 }

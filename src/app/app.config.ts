@@ -5,17 +5,17 @@ import { routes } from './app.routes';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormField } from '@angular/material/form-field';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'outline' }
+      useValue: { appearance: 'outline' },
     },
     provideRouter(routes),
-     provideHttpClient(
-      withInterceptors([authInterceptor])
-    ),
-  ]
+    provideHttpClient(withInterceptors([authInterceptor])),
+    provideNativeDateAdapter(),
+  ],
 };

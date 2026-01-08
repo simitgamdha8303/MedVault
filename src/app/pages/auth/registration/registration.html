@@ -4,7 +4,7 @@
 </div>
 
 <h2 class="title">
-  Sign Up
+  {{ selectedRole === 'doctor' ? 'Sign Up as Doctor' : 'Sign Up as Patient' }}
 </h2>
 
 <form [formGroup]="signupForm" (ngSubmit)="submit()" class="signup-form">
