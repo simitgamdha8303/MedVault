@@ -1,0 +1,122 @@
+<h2 mat-dialog-title class="dialog-title text-heading">
+  <mat-icon>timeline</mat-icon>
+  {{ isEdit ? 'Edit Medical Timeline' : 'Add Medical Timeline' }}
+</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-dialog-content class="dialog-content">
+    <!-- Doctor Section -->
+    <div class="section">
+      <h3 class="section-title">Doctor Information</h3>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Select Doctor</mat-label>
+        <mat-icon matPrefix>person</mat-icon>
+        <mat-select
+          formControlName="doctorProfileId"
+          (selectionChange)="onDoctorSelect($event.value)"
+        >
+          <mat-option [value]="null">Other / Not Listed</mat-option>
+          <mat-option *ngFor="let d of doctors" [value]="d.id">
+            {{ d.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Manual doctor name (conditional) -->
+      <mat-form-field
+        *ngIf="!form.get('doctorProfileId')?.value"
+        appearance="outline"
+        class="full-width"
+      >
+        <mat-label>Doctor Name</mat-label>
+        <mat-icon matPrefix>edit</mat-icon>
+        <input matInput formControlName="doctorName" aria-label="doctorName" />
+      </mat-form-field>
+    </div>
+
+    <!-- Checkup Section -->
+    <div class="section two-column">
+      <mat-form-field appearance="outline">
+        <mat-label>Checkup Type</mat-label>
+        <mat-icon matPrefix>medical_services</mat-icon>
+        <mat-select formControlName="checkupType" required>
+          <mat-option *ngFor="let c of checkupTypes" [value]="c.id">
+            {{ c.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Event Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="eventDate"
+          readonly
+          (click)="picker.open()"
+          aria-label="eventDate"
+          [max]="today"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- Notes -->
+    <div class="section">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Notes</mat-label>
+        <textarea matInput rows="3" formControlName="notes" aria-label="notes"></textarea>
+      </mat-form-field>
+    </div>
+
+    <!-- Documents Section -->
+    <div class="section">
+      <h3 class="section-title">Documents</h3>
+
+      <!-- Upload Button -->
+      <div class="upload-row">
+        <input
+          type="file"
+          #fileInput
+          hidden
+          multiple
+          accept=".pdf,.jpg,.jpeg,.png"
+          (change)="onFileSelected($event)"
+        />
+
+        <button mat-stroked-button color="primary" type="button" (click)="fileInput.click()">
+          <mat-icon>upload_file</mat-icon>
+          Upload Documents
+        </button>
+
+        <span class="hint">PDF, JPG, PNG (Max 5MB each)</span>
+      </div>
+
+      <!-- Selected Files List -->
+      <mat-list *ngIf="selectedFiles.length > 0" class="file-list">
+        <mat-list-item *ngFor="let file of selectedFiles; let i = index">
+          <mat-icon matListItemIcon>description</mat-icon>
+
+          <div matLine class="file-name">{{ file.name }}</div>
+          <div matLine class="file-size">{{ file.size / 1024 | number : '1.0-0' }} KB</div>
+
+          <div matListItemMeta>
+          <button matIconButton (click)="removeFile(i)" aria-label="Remove file">
+            <mat-icon>close</mat-icon>
+          </button>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-raised-button type="button" (click)="close()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+      <mat-icon>save</mat-icon>
+      Save
+    </button>
+  </mat-dialog-actions>
+</form>

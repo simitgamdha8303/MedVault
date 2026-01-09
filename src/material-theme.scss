@@ -35,3 +35,9 @@ body {
   margin: 0;
   height: 100%;
 }
+
+:root {
+  @include mat.dialog-overrides((
+    container-shape: 15px
+  ));
+}

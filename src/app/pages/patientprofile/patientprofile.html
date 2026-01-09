@@ -9,9 +9,39 @@
 
 <form class="patientProfileForm" [formGroup]="patientProfileForm" (ngSubmit)="onSubmit()">
   <!-- Date of Birth -->
-  <mat-form-field class="full">
+  <!-- <mat-form-field class="full">
     <mat-label>Date of Birth</mat-label>
     <input matInput type="date" formControlName="dateOfBirth" aria-label="dateOfBirth" />
+  </mat-form-field> -->
+
+  <!-- <mat-form-field class="full">
+    <mat-label>Date of Birth</mat-label>
+    <input
+      matInput
+      type="date"
+      [matDatepicker]="picker"
+      formControlName="dateOfBirth"
+      (click)="picker.open()"
+      [max]="today"
+      aria-label="dateOfBirth"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field> -->
+
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Date of Birth</mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      formControlName="dateOfBirth"
+      readonly
+      (click)="picker.open()"
+      aria-label="dateOfBirth"
+      [max]="today"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
   <!-- Gender -->

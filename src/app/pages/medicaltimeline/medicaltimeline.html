@@ -1,4 +1,94 @@
-<button mat-raised-button color="primary" (click)="openAddDialog()">
-  Add
-</button>
+<!-- Header -->
+<div class="page-header">
+  <h2 class="text-heading">Medical Timeline</h2>
+  <button mat-raised-button color="primary" (click)="openAddDialog()">
+    <mat-icon>add</mat-icon>
+    Add Record
+  </button>
+</div>
 
+<!-- Filters -->
+<div class="filters">
+  <mat-form-field appearance="outline">
+    <mat-label>Checkup Type</mat-label>
+    <mat-select [(ngModel)]="filters.checkupType" (selectionChange)="loadTimelines()">
+      <mat-option [value]="null">All</mat-option>
+      <mat-option *ngFor="let c of checkupTypes" [value]="c.id">
+        {{ c.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>From</mat-label>
+    <input
+      matInput
+      [matDatepicker]="from"
+      [(ngModel)]="filters.fromDate"
+      (dateChange)="loadTimelines()"
+      aria-label="from"
+    />
+    <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+    <mat-datepicker #from></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>To</mat-label>
+    <input
+      matInput
+      [matDatepicker]="to"
+      [(ngModel)]="filters.toDate"
+      (dateChange)="loadTimelines()"
+      aria-label="to"
+    />
+    <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+    <mat-datepicker #to></mat-datepicker>
+  </mat-form-field>
+</div>
+
+<!-- Timeline -->
+<div class="timeline-scroll">
+  <div class="timeline-wrapper">
+    <div class="timeline-item" *ngFor="let t of timelines()">
+      <!-- Icon -->
+      <div class="timeline-icon">
+        <mat-icon>local_hospital</mat-icon>
+      </div>
+
+      <!-- Card -->
+      <div class="timeline-card">
+        <div class="card-header">
+          <div>
+            <h3>{{ t.checkupType }}</h3>
+            <span class="doctor">
+              {{ t.doctorName || t.doctorProfileName || 'Self' }}
+            </span>
+          </div>
+
+          <div class="right">
+            <span class="date">
+              {{ t.eventDate | date : 'dd MMM yyyy' }}
+            </span>
+            <span class="badge">Medical</span>
+          </div>
+        </div>
+
+        <p class="notes">
+          {{ t.notes || 'No notes provided for this record.' }}
+        </p>
+
+        <div class="card-actions">
+          <button mat-raised-button color="primary" (click)="openEditDialog(t.id)">
+            <mat-icon>edit</mat-icon>
+            Edit
+          </button>
+
+          <button mat-raised-button color="warn" class="warn-btn"  (click)="confirmDelete(t.id)">
+            <mat-icon>delete</mat-icon>
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

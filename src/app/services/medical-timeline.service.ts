@@ -10,4 +10,27 @@ export class MedicalTimelineService {
   create(payload: any) {
     return this.http.post(`${this.baseUrl}`, payload);
   }
+
+  getById(id: number) {
+    return this.http.get<any>(`${this.baseUrl}/${id}`);
+  }
+
+  update(id: number, payload: any) {
+    return this.http.put(`${this.baseUrl}/${id}`, payload);
+  }
+
+  delete(id: number) {
+    return this.http.delete(`${this.baseUrl}/${id}`);
+  }
+
+  search(filters: any) {
+    const payload = {
+      checkupType: filters.checkupType,
+      doctorProfileId: filters.doctorId,
+      fromDate: filters.fromDate ? filters.fromDate.toISOString().split('T')[0] : null,
+      toDate: filters.toDate ? filters.toDate.toISOString().split('T')[0] : null,
+    };
+
+    return this.http.post<any>(`${this.baseUrl}/patient`, payload);
+  }
 }

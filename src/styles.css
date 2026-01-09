@@ -4,3 +4,7 @@ html, body {
   margin: 0;
   overflow: hidden;
 }
+
+.text-heading{
+  color: #0b2c4d !important;
+}

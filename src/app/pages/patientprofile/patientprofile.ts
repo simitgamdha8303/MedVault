@@ -11,6 +11,8 @@ import { LookupService } from '../../services/lookup.service';
 import { EnumLookup } from '../../interfaces/enum-lookup';
 import { PatientprofileService } from '../../services/patient-profile.service';
 import { Router } from '@angular/router';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-patientprofile',
@@ -23,7 +25,9 @@ import { Router } from '@angular/router';
     MatSelectModule,
     MatButtonModule,
     MatSnackBarModule,
+    MatDatepickerModule
   ],
+  providers: [MatNativeDateModule],
   templateUrl: './patientprofile.html',
   styleUrl: './patientprofile.css',
 })
@@ -32,11 +36,12 @@ export class Patientprofile implements OnInit {
   private lookupService = inject(LookupService);
   private patientProfileService = inject(PatientprofileService);
   private snackBar = inject(MatSnackBar);
-   private cdr = inject(ChangeDetectorRef);
+  private cdr = inject(ChangeDetectorRef);
   private readonly router = inject(Router);
 
   genders: EnumLookup[] = [];
   bloodGroups: EnumLookup[] = [];
+  today = new Date();
 
   patientProfileForm = this.fb.group({
     dateOfBirth: ['', Validators.required],
@@ -71,6 +76,7 @@ export class Patientprofile implements OnInit {
 
     const payload = {
       ...formValue,
+       dateOfBirth: this.formatDateOnly(formValue.dateOfBirth!)
     };
 
     this.patientProfileService.create(payload).subscribe({
@@ -89,4 +95,12 @@ export class Patientprofile implements OnInit {
       },
     });
   }
+
+  private formatDateOnly(date: Date | string | null): string | null {
+  if (!date) return null;
+
+  const d = new Date(date);
+  return d.toISOString().split('T')[0]; // yyyy-MM-dd
+}
+
 }

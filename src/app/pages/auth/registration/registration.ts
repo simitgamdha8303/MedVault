@@ -37,7 +37,7 @@ export class Registration {
     email: ['', [Validators.required, Validators.email]],
     firstName: ['', [Validators.required, Validators.pattern('^[A-Za-z]+$')]],
     lastName: ['', [Validators.required, Validators.pattern('^[A-Za-z]+$')]],
-    mobile: ['', [Validators.required, Validators.pattern('^[2-9]{10}$')]],
+    mobile: ['', [Validators.required, Validators.pattern('^[2-9][0-9]{9}$')]],
     password: [
       '',
       [

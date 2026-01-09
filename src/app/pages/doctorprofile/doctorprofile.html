@@ -39,7 +39,7 @@
   <!-- LicenseNumber -->
   <mat-form-field>
     <mat-label>LicenseNumber</mat-label>
-    <input matInput formControlName="licenseNumber" aria-label="licenseNumber" />
+    <input matInput formControlName="licenseNumber" aria-label="licenseNumber" minlength="7" maxlength="9"/>
     <mat-error
       *ngIf="
         doctorProfileForm.get('licenseNumber')?.touched &&
@@ -55,7 +55,7 @@
         doctorProfileForm.get('licenseNumber')?.hasError('pattern')
       "
     >
-      Invalid license format (e.g. MH12345)
+      Invalid license format (e.g. MH12346)
     </mat-error>
   </mat-form-field>
 

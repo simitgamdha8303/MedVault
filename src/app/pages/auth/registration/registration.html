@@ -64,7 +64,7 @@
   <!-- Mobile -->
   <mat-form-field class="full">
     <mat-label>Mobile</mat-label>
-    <input matInput formControlName="mobile" aria-label="Mobile" />
+    <input matInput formControlName="mobile" aria-label="Mobile" maxlength="10"/>
 
     <mat-error
       *ngIf="signupForm.get('mobile')?.touched && signupForm.get('mobile')?.hasError('required')"

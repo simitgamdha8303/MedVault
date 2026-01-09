@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddMedicaltimelineDialog } from './add-medicaltimeline-dialog';
+import { MedicaltimelineDialog } from './medicaltimeline-dialog';
 
 describe('AddMedicaltimelineDialog', () => {
-  let component: AddMedicaltimelineDialog;
-  let fixture: ComponentFixture<AddMedicaltimelineDialog>;
+  let component: MedicaltimelineDialog;
+  let fixture: ComponentFixture<MedicaltimelineDialog>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddMedicaltimelineDialog]
+      imports: [MedicaltimelineDialog]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddMedicaltimelineDialog);
+    fixture = TestBed.createComponent(MedicaltimelineDialog);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

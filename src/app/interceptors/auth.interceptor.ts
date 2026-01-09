@@ -8,6 +8,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const token = localStorage.getItem('token');
 
+  if (req.url.includes('api.cloudinary.com')) {
+    return next(req);
+  }
+
   let authReq = req;
   if (token) {
     authReq = req.clone({
@@ -18,7 +22,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   }
 
   return next(authReq).pipe(
-    catchError(error => {
+    catchError((error) => {
       if (error.status === 401) {
         localStorage.clear();
         router.navigate(['/auth/login']);
