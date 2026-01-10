@@ -201,7 +201,6 @@ export class MedicaltimelineDialogComponent implements OnInit {
       patientId: 1,
       medicalTimelineId: 10,
       documentTypeId: 3,
-      documentDate: '2025-01-08',
       fileName,
       fileUrl,
     };

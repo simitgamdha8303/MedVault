@@ -29,6 +29,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
+    
   ],
   templateUrl: './medicaltimeline.html',
   styleUrl: './medicaltimeline.css',

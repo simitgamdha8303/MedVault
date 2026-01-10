@@ -13,7 +13,7 @@
     <span class="example-spacer"></span>
     <button matIconButton [matMenuTriggerFor]="menu"><mat-icon>account_circle</mat-icon></button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item><mat-icon>person</mat-icon>My Profile</button>
+      <button mat-menu-item routerLink="/myprofile"><mat-icon>person</mat-icon>My Profile</button>
       <button mat-menu-item (click)="logout()"><mat-icon>logout</mat-icon>Logout</button>
     </mat-menu>
   </mat-toolbar>

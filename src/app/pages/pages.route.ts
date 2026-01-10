@@ -11,6 +11,7 @@ import { guestGuard } from '../guards/guest.guard';
 import { Doctorprofile } from './doctorprofile/doctorprofile';
 import { Patientprofile } from './patientprofile/patientprofile';
 import { Medicaltimeline } from './medicaltimeline/medicaltimeline';
+import { Myprofile } from './myprofile/myprofile';
 
 export const PAGES_ROUTES: Routes = [
   {
@@ -39,7 +40,14 @@ export const PAGES_ROUTES: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: Dashboard },
-      { path: 'medicaltimeline',canActivate: [authGuard], component: Medicaltimeline, data: { role: 'Patient' } },
+      { path: 'myprofile', component: Myprofile },
+
+      {
+        path: 'medicaltimeline',
+        canActivate: [authGuard],
+        component: Medicaltimeline,
+        data: { role: 'Patient' },
+      },
     ],
   },
 

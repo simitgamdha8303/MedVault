@@ -1,0 +1,126 @@
+<!-- LOADING STATE -->
+<div *ngIf="loading">Loading profile...</div>
+
+<!-- PROFILE PAGE -->
+<div *ngIf="user" class="myprofile-layout">
+
+  <!-- TOP SECTION -->
+  <div class="profile-top">
+
+    <!-- HEADER -->
+    <div class="profile-header">
+      <div class="avatar">
+        {{ user.firstName[0] }}{{ user.lastName[0] }}
+      </div>
+
+      <div class="header-info">
+        <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+
+        <span class="role-badge" *ngIf="user.doctorProfile">Doctor</span>
+        <span class="role-badge patient" *ngIf="user.patientProfile">Patient</span>
+
+        <p class="email">{{ user.email }}</p>
+      </div>
+
+      <button
+        mat-stroked-button
+        class="edit-top-btn"
+        (click)="editProfile()">
+        <mat-icon>edit</mat-icon>
+        Edit Profile
+      </button>
+    </div>
+
+    <!-- BASIC INFO -->
+    <section class="card basic-card">
+      <h3>Basic Information</h3>
+
+      <div class="info-row">
+        <span>Mobile</span>
+        <span>{{ user.mobile }}</span>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <strong>Two-Factor Authentication</strong>
+          <p class="hint">Adds extra security during login</p>
+        </div>
+
+        <!-- MATERIAL TOGGLE (CORRECT) -->
+        <mat-slide-toggle
+          [checked]="user.twoFactorEnabled"
+          (change)="toggleTwoFactor()">
+        </mat-slide-toggle>
+      </div>
+    </section>
+  </div>
+
+  <!-- CONTENT AREA -->
+  <div class="profile-content">
+
+    <!-- DOCTOR PROFILE -->
+    <section
+      class="card content-card"
+      *ngIf="user.doctorProfile as doctor">
+
+      <h3>Doctor Profile</h3>
+
+      <div class="info-row">
+        <span>Specialization</span>
+        <span>{{ doctor.specialization }}</span>
+      </div>
+
+      <div class="info-row">
+        <span>License No</span>
+        <span>{{ doctor.licenseNumber }}</span>
+      </div>
+
+      <div class="info-row">
+        <span>Hospital</span>
+        <span>{{ doctor.hospitalName }}</span>
+      </div>
+    </section>
+
+    <!-- PATIENT PROFILE -->
+    <section
+      class="card content-card"
+      *ngIf="user.patientProfile as patient">
+
+      <h3>Patient Profile</h3>
+
+      <div class="info-row">
+        <span>Date of Birth</span>
+        <span>{{ patient.dateOfBirth | date:'dd MMM yyyy' }}</span>
+      </div>
+
+      <div class="info-row">
+        <span>Gender</span>
+        <span>{{ patient.genderValue }}</span>
+      </div>
+
+      <div class="info-row">
+        <span>Blood Group</span>
+        <span>{{ patient.bloodGroupValue }}</span>
+      </div>
+
+      <div class="info-row">
+        <span>Allergies</span>
+        <span>{{ patient.allergies || 'None reported' }}</span>
+      </div>
+
+      <div class="info-row">
+        <span>Chronic Condition</span>
+        <span>{{ patient.chronicCondition || 'None' }}</span>
+      </div>
+
+      <div class="info-row">
+        <span>Emergency Contact</span>
+        <span>
+          {{ patient.emergencyContactName }}<br />
+          {{ patient.emergencyContactPhone }}
+        </span>
+      </div>
+    </section>
+
+  </div>
+</div>
