@@ -16,6 +16,8 @@ import { EnumLookup } from '../../../interfaces/enum-lookup';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { CloudinaryService } from '../../../services/cloudinary.service';
+import { ApiResponse } from '../../../interfaces/api-response';
+import { DocumentService } from '../../../services/document.service';
 
 @Component({
   selector: 'app-medicaltimeline-dialog',
@@ -46,6 +48,7 @@ export class MedicaltimelineDialogComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private data = inject(MAT_DIALOG_DATA);
   private cloudinaryService = inject(CloudinaryService);
+  private documentService = inject(DocumentService);
 
   checkupTypes: EnumLookup[] = [];
   doctors: DoctorProfile[] = [];
@@ -54,7 +57,7 @@ export class MedicaltimelineDialogComponent implements OnInit {
   today = new Date();
 
   form = this.fb.group({
-    doctorProfileId: [0],
+    doctorProfileId: [null as number | null],
     doctorName: [''],
     checkupType: [0, Validators.required],
     eventDate: [null as Date | null, Validators.required],
@@ -72,6 +75,8 @@ export class MedicaltimelineDialogComponent implements OnInit {
     }
   }
 
+  existingDocuments: any[] = [];
+
   loadTimelineForEdit(): void {
     this.timelineService.getById(this.timelineId).subscribe((res) => {
       const t = res.data;
@@ -84,10 +89,14 @@ export class MedicaltimelineDialogComponent implements OnInit {
         notes: t.notes,
       });
 
+      this.existingDocuments = t.documentResponses || [];
+
       this.onDoctorSelect(t.doctorProfileId);
       this.cdr.detectChanges();
     });
   }
+
+  
 
   loadCheckupTypes(): void {
     this.lookupService.getCheckupTypes().subscribe((res) => {
@@ -123,8 +132,6 @@ export class MedicaltimelineDialogComponent implements OnInit {
   submit(): void {
     if (this.form.invalid) return;
 
-    this.uploadSelectedFiles();
-
     const raw = this.form.getRawValue();
     const date = raw.eventDate as Date | null;
 
@@ -136,33 +143,45 @@ export class MedicaltimelineDialogComponent implements OnInit {
       notes: raw.notes,
     };
 
-    const request$ = this.isEdit
-      ? this.timelineService.update(this.timelineId, payload)
-      : this.timelineService.create(payload);
+    if (this.isEdit) {
+      this.timelineService.update(this.timelineId, payload).subscribe({
+        next: () => {
+          if (this.selectedFiles.length > 0) {
+            this.uploadSelectedFiles(this.timelineId);
+          }
 
-    request$.subscribe({
-      next: () => {
-        this.snackBar.open(
-          this.isEdit
-            ? 'Medical timeline updated successfully'
-            : 'Medical timeline created successfully',
-          'Close',
-          { duration: 2000, verticalPosition: 'top' }
-        );
+          this.snackBar.open('Medical timeline updated successfully', 'Close', {
+            duration: 2000,
+            verticalPosition: 'top',
+          });
 
-        this.dialogRef.close(true);
-      },
-      error: (err) => {
-        const apiError = err?.error;
-        const message = apiError?.Errors?.[0] || apiError?.Message || 'Operation failed';
+          this.dialogRef.close(true);
+        },
+        error: (err: any) => {
+          this.handleError(err);
+        },
+      });
+    } else {
+      this.timelineService.create(payload).subscribe({
+        next: (res: ApiResponse<number>) => {
+          const timelineId = res.data;
 
-        this.snackBar.open(message, 'Close', {
-          duration: 3000,
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar'],
-        });
-      },
-    });
+          if (this.selectedFiles.length > 0) {
+            this.uploadSelectedFiles(timelineId);
+          }
+
+          this.snackBar.open('Medical timeline created successfully', 'Close', {
+            duration: 2000,
+            verticalPosition: 'top',
+          });
+
+          this.dialogRef.close(true);
+        },
+        error: (err: any) => {
+          this.handleError(err);
+        },
+      });
+    }
   }
 
   close(): void {
@@ -176,7 +195,7 @@ export class MedicaltimelineDialogComponent implements OnInit {
     if (!input.files) return;
 
     Array.from(input.files).forEach((file) => {
-      // ✅ Size check (5MB)
+      // Size check (5MB)
       if (file.size <= 5 * 1024 * 1024) {
         this.selectedFiles.push(file);
       }
@@ -185,30 +204,48 @@ export class MedicaltimelineDialogComponent implements OnInit {
     input.value = ''; // reset input
   }
 
-  uploadSelectedFiles() {
+  uploadSelectedFiles(timelineId: number) {
     this.selectedFiles.forEach((file) => {
       this.cloudinaryService.uploadFile(file).subscribe((res: any) => {
-        const fileUrl = res.secure_url;
-        const fileName = file.name;
-
-        this.saveDocument(fileUrl, fileName);
+        this.saveDocument(res.secure_url, file.name, timelineId);
       });
     });
   }
 
-  saveDocument(fileUrl: string, fileName: string) {
+  saveDocument(fileUrl: string, fileName: string, timelineId: number) {
     const payload = {
-      patientId: 1,
-      medicalTimelineId: 10,
-      documentTypeId: 3,
+      medicalTimelineId: timelineId,
       fileName,
       fileUrl,
+      documentDate: new Date().toISOString().split('T')[0],
     };
 
-    console.log(payload);
+    this.documentService.create(payload).subscribe({
+      next: () => {
+        console.log('Document saved successfully');
+      },
+      error: (err) => {
+        console.error('Document save failed', err);
+        this.snackBar.open('Failed to save document', 'Close', {
+          duration: 3000,
+          verticalPosition: 'top',
+        });
+      },
+    });
   }
 
   removeFile(index: number) {
     this.selectedFiles.splice(index, 1);
+  }
+
+  private handleError(err: any): void {
+    const apiError = err?.error;
+    const message = apiError?.Errors?.[0] || apiError?.Message || 'Operation failed';
+
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      verticalPosition: 'top',
+      panelClass: ['error-snackbar'],
+    });
   }
 }

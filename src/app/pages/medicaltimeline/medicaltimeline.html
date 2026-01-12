@@ -19,6 +19,18 @@
     </mat-select>
   </mat-form-field>
 
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Filter by Doctor</mat-label>
+    <mat-icon matPrefix>search</mat-icon>
+    <input
+      matInput
+      placeholder="Type doctor name"
+      [(ngModel)]="filters.doctor"
+      (ngModelChange)="onDoctorFilterChange()"
+      aria-label="doctor"
+    />
+  </mat-form-field>
+
   <mat-form-field appearance="outline">
     <mat-label>From</mat-label>
     <input
@@ -83,7 +95,7 @@
             Edit
           </button>
 
-          <button mat-raised-button color="warn" class="warn-btn"  (click)="confirmDelete(t.id)">
+          <button mat-raised-button color="warn" class="warn-btn" (click)="confirmDelete(t.id)">
             <mat-icon>delete</mat-icon>
             Delete
           </button>

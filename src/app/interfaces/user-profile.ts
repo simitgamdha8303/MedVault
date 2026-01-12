@@ -13,12 +13,16 @@ export interface DoctorProfile {
   specialization: string;
   licenseNumber: string;
   hospitalName: string;
+  hospitalId?: number;
+
 }
 
 export interface PatientProfile {
   dateOfBirth: string;
   genderValue: string;
+  gender?: number;
   bloodGroupValue: string;
+  bloodGroup?: number;
   allergies?: string;
   chronicCondition?: string;
   emergencyContactName?: string;

@@ -29,7 +29,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
-    
   ],
   templateUrl: './medicaltimeline.html',
   styleUrl: './medicaltimeline.css',
@@ -38,17 +37,18 @@ export class Medicaltimeline implements OnInit {
   private dialog = inject(MatDialog);
   private timelineService = inject(MedicalTimelineService);
   private lookupService = inject(LookupService);
-   private readonly snackBar = inject(MatSnackBar);
+  private readonly snackBar = inject(MatSnackBar);
+  private doctorSearchTimeout: any;
 
   timelines = signal<any[]>([]);
 
   checkupTypes: any[] = [];
 
-  filters = {
+  filters: TimelineFilters = {
     checkupType: null,
     fromDate: null,
     toDate: null,
-    doctorId: null,
+    doctor: null,
   };
 
   ngOnInit(): void {
@@ -63,9 +63,23 @@ export class Medicaltimeline implements OnInit {
   }
 
   loadTimelines(): void {
-    this.timelineService.search(this.filters).subscribe((res) => {
+    const payload = {
+      checkupType: this.filters.checkupType,
+      fromDate: this.filters.fromDate ? this.filters.fromDate.toISOString().split('T')[0] : null,
+      toDate: this.filters.toDate ? this.filters.toDate.toISOString().split('T')[0] : null,
+      doctor: this.filters.doctor,
+    };
+    this.timelineService.search(payload).subscribe((res) => {
       this.timelines.set(res.data);
     });
+  }
+
+  onDoctorFilterChange(): void {
+    clearTimeout(this.doctorSearchTimeout);
+
+    this.doctorSearchTimeout = setTimeout(() => {
+      this.loadTimelines();
+    }, 400);
   }
 
   openAddDialog(): void {
@@ -104,12 +118,12 @@ export class Medicaltimeline implements OnInit {
 
     this.timelineService.delete(id).subscribe({
       next: () => {
-         this.snackBar.open('Record delete successfully', 'Close', {
+        this.snackBar.open('Record delete successfully', 'Close', {
           duration: 1000,
           verticalPosition: 'top',
           panelClass: ['success-snackbar'],
-         });
-        
+        });
+
         this.loadTimelines();
       },
       error: (err) => {

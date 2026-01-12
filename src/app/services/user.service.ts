@@ -20,4 +20,8 @@ export class UserService {
   updateTwoFactor(enabled: boolean) {
     return this.http.put<any>(`${this.apiUrl}/user/two-factor`, { enabled });
   }
+
+  updateProfile(payload: any) {
+    return this.http.put(`${this.apiUrl}/user/profile`, payload);
+  }
 }
