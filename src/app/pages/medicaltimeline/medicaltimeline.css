@@ -154,3 +154,44 @@
   color: #ce0d09 !important;
 }
 
+.documents {
+  margin-top: 12px;
+}
+
+.doc-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.doc-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+
+  font-size: 13px;
+  cursor: pointer;
+  background: #fafafa;
+  transition: all 0.2s ease;
+}
+
+.doc-box:hover {
+  background: #f0f6ff;
+  border-color: #1976d2;
+}
+
+.doc-icon {
+  font-size: 18px;
+  color: #1976d2;
+}
+
+.doc-name {
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

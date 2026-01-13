@@ -89,6 +89,25 @@
           {{ t.notes || 'No notes provided for this record.' }}
         </p>
 
+        <!-- Documents -->
+        <div class="documents" *ngIf="t.documentResponses?.length">
+          <div class="doc-list">
+            <div
+              class="doc-box"
+              *ngFor="let doc of t.documentResponses"
+              (click)="openDocument(doc.fileUrl)"
+            >
+              <mat-icon class="doc-icon">
+                {{ getFileIcon(doc.fileName) }}
+              </mat-icon>
+
+              <span class="doc-name">
+                {{ doc.fileName }}
+              </span>
+            </div>
+          </div>
+        </div>
+
         <div class="card-actions">
           <button mat-raised-button color="primary" (click)="openEditDialog(t.id)">
             <mat-icon>edit</mat-icon>

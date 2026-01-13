@@ -18,6 +18,8 @@ import { MatListModule } from '@angular/material/list';
 import { CloudinaryService } from '../../../services/cloudinary.service';
 import { ApiResponse } from '../../../interfaces/api-response';
 import { DocumentService } from '../../../services/document.service';
+import { DocumentResponse } from '../../../interfaces/document-response';
+import { forkJoin, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-medicaltimeline-dialog',
@@ -55,6 +57,9 @@ export class MedicaltimelineDialogComponent implements OnInit {
   isEdit = false;
   timelineId!: number;
   today = new Date();
+  existingDocuments: DocumentResponse[] = [];
+  selectedFiles: File[] = [];
+  removedDocumentIds: number[] = [];
 
   form = this.fb.group({
     doctorProfileId: [null as number | null],
@@ -75,8 +80,6 @@ export class MedicaltimelineDialogComponent implements OnInit {
     }
   }
 
-  existingDocuments: any[] = [];
-
   loadTimelineForEdit(): void {
     this.timelineService.getById(this.timelineId).subscribe((res) => {
       const t = res.data;
@@ -89,14 +92,13 @@ export class MedicaltimelineDialogComponent implements OnInit {
         notes: t.notes,
       });
 
-      this.existingDocuments = t.documentResponses || [];
+      // LOAD EXISTING DOCUMENTS
+      this.existingDocuments = t.documentResponses ?? [];
 
       this.onDoctorSelect(t.doctorProfileId);
       this.cdr.detectChanges();
     });
   }
-
-  
 
   loadCheckupTypes(): void {
     this.lookupService.getCheckupTypes().subscribe((res) => {
@@ -146,20 +148,40 @@ export class MedicaltimelineDialogComponent implements OnInit {
     if (this.isEdit) {
       this.timelineService.update(this.timelineId, payload).subscribe({
         next: () => {
+          const operations = [];
+
           if (this.selectedFiles.length > 0) {
-            this.uploadSelectedFiles(this.timelineId);
+            operations.push(this.uploadSelectedFiles(this.timelineId));
           }
 
-          this.snackBar.open('Medical timeline updated successfully', 'Close', {
-            duration: 2000,
-            verticalPosition: 'top',
-          });
+          if (this.removedDocumentIds.length > 0) {
+            operations.push(this.deleteFiles(this.removedDocumentIds));
+          }
 
-          this.dialogRef.close(true);
+          // If nothing async, close immediately
+          if (operations.length === 0) {
+            this.dialogRef.close(true);
+            return;
+          }
+
+          // Wait for ALL async ops
+          forkJoin(operations).subscribe({
+            next: () => {
+              this.snackBar.open('Medical timeline updated successfully', 'Close', {
+                duration: 2000,
+                verticalPosition: 'top',
+              });
+              this.dialogRef.close(true);
+            },
+            error: () => {
+              this.snackBar.open('Operation failed', 'Close', {
+                duration: 3000,
+                verticalPosition: 'top',
+              });
+            },
+          });
         },
-        error: (err: any) => {
-          this.handleError(err);
-        },
+        error: (err) => this.handleError(err),
       });
     } else {
       this.timelineService.create(payload).subscribe({
@@ -185,53 +207,68 @@ export class MedicaltimelineDialogComponent implements OnInit {
   }
 
   close(): void {
+    this.removedDocumentIds = [];
+    this.selectedFiles = [];
     this.dialogRef.close();
   }
 
-  selectedFiles: File[] = [];
+  deleteFiles(documentIds: number[]) {
+    return this.documentService.deleteMany(documentIds);
+  }
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files) return;
 
+    const allowedTypes = ['image/jpg', 'image/png', 'application/pdf'];
+
     Array.from(input.files).forEach((file) => {
       // Size check (5MB)
-      if (file.size <= 5 * 1024 * 1024) {
-        this.selectedFiles.push(file);
+
+      if (!allowedTypes.includes(file.type)) {
+        this.snackBar.open('Only JPG, PNG and PDF files are allowed', 'Close', {
+          duration: 3000,
+          verticalPosition: 'top',
+        });
+        return;
       }
+
+      if (file.size > 5 * 1024 * 1024) {
+        this.snackBar.open('File size must be less than 5MB', 'Close', {
+          duration: 3000,
+          verticalPosition: 'top',
+        });
+        return;
+      }
+
+      this.selectedFiles.push(file);
     });
 
     input.value = ''; // reset input
   }
 
-  uploadSelectedFiles(timelineId: number) {
-    this.selectedFiles.forEach((file) => {
-      this.cloudinaryService.uploadFile(file).subscribe((res: any) => {
-        this.saveDocument(res.secure_url, file.name, timelineId);
-      });
-    });
+  removeExistingDocument(doc: DocumentResponse) {
+    if (!this.removedDocumentIds.includes(doc.id)) {
+      this.removedDocumentIds.push(doc.id);
+    }
+    this.existingDocuments = this.existingDocuments.filter((d) => d.id !== doc.id);
   }
 
-  saveDocument(fileUrl: string, fileName: string, timelineId: number) {
-    const payload = {
-      medicalTimelineId: timelineId,
-      fileName,
-      fileUrl,
-      documentDate: new Date().toISOString().split('T')[0],
-    };
-
-    this.documentService.create(payload).subscribe({
-      next: () => {
-        console.log('Document saved successfully');
-      },
-      error: (err) => {
-        console.error('Document save failed', err);
-        this.snackBar.open('Failed to save document', 'Close', {
-          duration: 3000,
-          verticalPosition: 'top',
-        });
-      },
-    });
+  uploadSelectedFiles(timelineId: number) {
+    return forkJoin(
+      this.selectedFiles.map((file) =>
+        this.cloudinaryService.uploadFile(file).pipe(
+          switchMap((res: any) =>
+            this.documentService.create({
+              medicalTimelineId: timelineId,
+              fileName: file.name,
+              fileUrl: res.secure_url,
+              documentDate: new Date().toISOString().split('T')[0],
+            })
+          )
+        )
+      )
+    );
   }
 
   removeFile(index: number) {

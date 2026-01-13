@@ -32,11 +32,12 @@
 }
 
 .sidebar a:hover {
-  /* color: #0b2c4d; */
+  color: #0b2c4d;
   background: #e9eff7;
 }
 
 .sidebar a.active {
   background: #e6eef8;
   color: #0b2c4d;
+
 }

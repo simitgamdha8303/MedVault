@@ -21,10 +21,13 @@ export class CloudinaryService {
         formData.append('timestamp', sig.timestamp);
         formData.append('signature', sig.signature);
         formData.append('folder', 'medvault/documents');
+        formData.append('UseFilename', 'true');
+        formData.append('UniqueFilename', 'true');
+        formData.append('Overwrite', 'false');
 
         // Upload directly to Cloudinary
         return this.http.post(
-          `https://api.cloudinary.com/v1_1/${sig.cloudName}/raw/upload`,
+          `https://api.cloudinary.com/v1_1/${sig.cloudName}/image/upload`,
           formData
         );
       })

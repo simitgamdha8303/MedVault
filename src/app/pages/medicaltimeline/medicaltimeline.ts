@@ -139,4 +139,17 @@ export class Medicaltimeline implements OnInit {
       },
     });
   }
+
+  openDocument(url: string): void {
+    window.open(url, '_blank', 'noopener');
+  }
+
+  getFileIcon(fileName: string): string {
+    const ext = fileName.split('.').pop()?.toLowerCase();
+
+    if (ext === 'pdf') return 'picture_as_pdf';
+    if (ext === 'png' || ext === 'jpg' || ext === 'jpeg') return 'image';
+
+    return 'attach_file';
+  }
 }

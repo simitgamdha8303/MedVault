@@ -8,7 +8,15 @@ export class DocumentService {
   private http = inject(HttpClient);
   private baseUrl = `${environment.apiBaseUrl}/medical-timeline`;
 
-    create(payload: any) {
+  create(payload: any) {
     return this.http.post<ApiResponse<number>>(`${this.baseUrl}/patient-document`, payload);
+  }
+
+  deleteMany(documentIds: number[]) {
+    return this.http.delete<ApiResponse<string>>(`${this.baseUrl}/documents/list`, {
+      body: {
+        documentIds: documentIds,
+      },
+    });
   }
 }

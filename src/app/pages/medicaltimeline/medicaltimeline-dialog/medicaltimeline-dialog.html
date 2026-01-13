@@ -94,6 +94,31 @@
         <span class="hint">PDF, JPG, PNG (Max 5MB each)</span>
       </div>
 
+      <!-- Existing Documents -->
+      <mat-list *ngIf="existingDocuments.length > 0" class="file-list">
+        <h4 class="section-subtitle">Existing Documents</h4>
+
+        <mat-list-item *ngFor="let doc of existingDocuments; let i = index">
+          <mat-icon matListItemIcon>description</mat-icon>
+
+          <a matLine [href]="doc.fileUrl" target="_blank" class="file-name">
+            {{ doc.fileName }}
+          </a>
+
+          <div matListItemMeta>
+            <button
+              mat-icon-button
+              color="warn"
+              aria-label="Remove document"
+              type="button"
+              (click)="removeExistingDocument(doc)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-list-item>
+      </mat-list>
+
       <!-- Selected Files List -->
       <mat-list *ngIf="selectedFiles.length > 0" class="file-list">
         <mat-list-item *ngFor="let file of selectedFiles; let i = index">
@@ -103,9 +128,9 @@
           <div matLine class="file-size">{{ file.size / 1024 | number : '1.0-0' }} KB</div>
 
           <div matListItemMeta>
-          <button matIconButton (click)="removeFile(i)" aria-label="Remove file">
-            <mat-icon>close</mat-icon>
-          </button>
+            <button matIconButton type="button" (click)="removeFile(i)" aria-label="Remove file">
+              <mat-icon>close</mat-icon>
+            </button>
           </div>
         </mat-list-item>
       </mat-list>
