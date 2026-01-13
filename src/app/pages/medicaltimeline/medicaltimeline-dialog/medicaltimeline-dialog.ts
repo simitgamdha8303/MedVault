@@ -189,19 +189,30 @@ export class MedicaltimelineDialogComponent implements OnInit {
           const timelineId = res.data;
 
           if (this.selectedFiles.length > 0) {
-            this.uploadSelectedFiles(timelineId);
+            this.uploadSelectedFiles(timelineId).subscribe({
+              next: () => {
+                this.snackBar.open('Medical timeline created successfully', 'Close', {
+                  duration: 2000,
+                  verticalPosition: 'top',
+                });
+                this.dialogRef.close(true);
+              },
+              error: () => {
+                this.snackBar.open('File upload failed', 'Close', {
+                  duration: 3000,
+                  verticalPosition: 'top',
+                });
+              },
+            });
+          } else {
+            this.snackBar.open('Medical timeline created successfully', 'Close', {
+              duration: 2000,
+              verticalPosition: 'top',
+            });
+            this.dialogRef.close(true);
           }
-
-          this.snackBar.open('Medical timeline created successfully', 'Close', {
-            duration: 2000,
-            verticalPosition: 'top',
-          });
-
-          this.dialogRef.close(true);
         },
-        error: (err: any) => {
-          this.handleError(err);
-        },
+        error: (err) => this.handleError(err),
       });
     }
   }

@@ -9,11 +9,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
-import { PatientProfile, UserProfileResponse } from '../../../interfaces/user-profile';
+import { UserProfileResponse } from '../../../interfaces/user-profile';
 import { LookupService } from '../../../services/lookup.service';
 import { EnumLookup } from '../../../interfaces/enum-lookup';
 import { UserService } from '../../../services/user.service';
-import { email } from '@angular/forms/signals';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -93,8 +92,14 @@ export class MyprofileDialog implements OnInit {
       bloodGroup: [this.data.patientProfile?.bloodGroup ?? null],
       allergies: [this.data.patientProfile?.allergies || ''],
       chronicCondition: [this.data.patientProfile?.chronicCondition || ''],
-      emergencyContactName: [this.data.patientProfile?.emergencyContactName || ''],
-      emergencyContactPhone: [this.data.patientProfile?.emergencyContactPhone || ''],
+      emergencyContactName: [
+        this.data.patientProfile?.emergencyContactName || '',
+        Validators.pattern('^[A-Za-z]+$'),
+      ],
+      emergencyContactPhone: [
+        this.data.patientProfile?.emergencyContactPhone || '',
+        Validators.pattern('^[2-9][0-9]{9}$'),
+      ],
     });
   }
 

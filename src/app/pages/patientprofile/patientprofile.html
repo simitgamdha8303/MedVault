@@ -80,14 +80,27 @@
   <mat-form-field>
     <mat-label>Emergency Contact Name</mat-label>
     <input matInput formControlName="emergencyContactName" aria-label="emergencyContactName" />
+    <mat-error *ngIf="patientProfileForm.get('emergencyContactName')?.hasError('pattern')">
+      Name can contain only letters
+    </mat-error>
   </mat-form-field>
 
   <!-- Emergency Contact Phone -->
   <mat-form-field>
     <mat-label>Emergency Contact Phone</mat-label>
-    <input matInput formControlName="emergencyContactPhone" aria-label="emergencyContactPhone" />
-    <mat-error *ngIf="patientProfileForm.get('emergencyContactPhone')?.hasError('pattern')">
-      Enter a valid 10-digit number
+    <input
+      matInput
+      formControlName="emergencyContactPhone"
+      aria-label="emergencyContactPhone"
+      maxlength="10"
+    />
+    <mat-error
+      *ngIf="
+        patientProfileForm.get('emergencyContactPhone')?.touched &&
+        patientProfileForm.get('emergencyContactPhone')?.hasError('pattern')
+      "
+    >
+      Mobile number must be 10 digits and not start with 0 or 1
     </mat-error>
   </mat-form-field>
 

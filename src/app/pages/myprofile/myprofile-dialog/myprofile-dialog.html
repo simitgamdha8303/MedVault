@@ -50,7 +50,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Mobile</mat-label>
           <mat-icon matPrefix>phone</mat-icon>
-          <input matInput formControlName="mobile" aria-label="mobile" maxlength="10"/>
+          <input matInput formControlName="mobile" aria-label="mobile" maxlength="10" />
           <mat-error
             *ngIf="form.get('mobile')?.touched && form.get('mobile')?.hasError('required')"
           >
@@ -165,6 +165,9 @@
             formControlName="emergencyContactName"
             aria-label="emergencyContactName"
           />
+          <mat-error *ngIf="form.get('emergencyContactName')?.hasError('pattern')">
+            name contain only letters
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -175,6 +178,14 @@
             aria-label="emergencyContactPhone"
             maxlength="10"
           />
+          <mat-error
+            *ngIf="
+              form.get('emergencyContactPhone')?.touched &&
+              form.get('emergencyContactPhone')?.hasError('pattern')
+            "
+          >
+            Mobile number must be 10 digits and not start with 0 or 1
+          </mat-error>
         </mat-form-field>
       </div>
     </div>

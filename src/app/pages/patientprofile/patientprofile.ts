@@ -49,8 +49,8 @@ export class Patientprofile implements OnInit {
     bloodGroup: ['', Validators.required],
     allergies: [''],
     chronicCondition: [''],
-    emergencyContactName: [''],
-    emergencyContactPhone: [''],
+    emergencyContactName: ['', Validators.pattern('^[A-Za-z]+$')],
+    emergencyContactPhone: ['',Validators.pattern('^[2-9][0-9]{9}$')],
   });
 
   ngOnInit(): void {
