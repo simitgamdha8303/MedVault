@@ -1,14 +1,13 @@
 <div class="auth-layout">
-
   <!-- LEFT IMAGE PANEL -->
   <div class="auth-left">
-
     <!-- Background Image -->
-    <img
+    <!-- <img
       src="/assets/images/auth-side.jpg"
       alt="Medical background"
       class="side-image"
-    />
+    /> -->
+    <img [src]="getAuthImage()" alt="Medical background" class="side-image" />
 
     <!-- Overlay -->
     <div class="overlay"></div>
@@ -25,11 +24,8 @@
         One Click at a Time.
       </p>
 
-      <small class="subtitle">
-        Your Health. Your Records. Your Control.
-      </small>
+      <small class="subtitle"> Your Health. Your Records. Your Control. </small>
     </div>
-
   </div>
 
   <!-- RIGHT FORM PANEL -->
@@ -38,5 +34,4 @@
       <router-outlet></router-outlet>
     </div>
   </div>
-
 </div>

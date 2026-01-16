@@ -4,21 +4,42 @@ html, body {
   overflow: hidden;
 }
 
-.text-heading{
+/* .text-heading{
   color: #0b2c4d !important;
+} */
+
+.text-heading{
+  color: var(--primary) !important;
 }
 
-
+/* Patient Theme - Blue/Navy */
 .patient-theme {
   --primary: #0b2c4d;
-  --header-bg: linear-gradient(180deg, #08183a, #0b2c4d);
+  --primary-light: #1e4976;
+  --primary-dark: #08183a;
+  --header-bg-start: #08183a;
+  --header-bg-end: #0b2c4d;
   --sidebar-bg: #ffffff;
+  --sidebar-hover: #e9eff7;
   --sidebar-active: #e6eef8;
+  --sidebar-text: #374151;
+  --sidebar-icon: #0b2c4d;
+  --border-color: #e4e8ef;
+  --main-bg: #f9f9f9;
 }
 
+/* Doctor Theme - Teal/Cyan */
 .doctor-theme {
-  --primary: #065f46;
-  --header-bg: linear-gradient(180deg, #064e3b, #065f46);
-  --sidebar-bg: #f0fdf4;
-  --sidebar-active: #dcfce7;
+  --primary: #0e7490;
+  --primary-light: #0891b2;
+  --primary-dark: #164e63;
+  --header-bg-start: #164e63;
+  --header-bg-end: #0e7490;
+  --sidebar-bg: #ffffff;
+  --sidebar-hover: #ecfeff;
+  --sidebar-active: #cffafe;
+  --sidebar-text: #374151;
+  --sidebar-icon: #0e7490;
+  --border-color: #e4e8ef;
+  --main-bg: #f9f9f9;
 }

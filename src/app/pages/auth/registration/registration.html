@@ -64,7 +64,7 @@
   <!-- Mobile -->
   <mat-form-field class="full">
     <mat-label>Mobile</mat-label>
-    <input matInput formControlName="mobile" aria-label="Mobile" maxlength="10"/>
+    <input matInput formControlName="mobile" aria-label="Mobile" maxlength="10" />
 
     <mat-error
       *ngIf="signupForm.get('mobile')?.touched && signupForm.get('mobile')?.hasError('required')"
@@ -114,13 +114,13 @@
 
   <!-- Footer -->
   <div class="auth-footer">
-
-  <!-- Login link  -->
-  <div class="auth-footer">
-    <span>Already have an account?</span>
-    <a routerLink="/auth/login" class="login-link">Log in</a>
+    <!-- Login link  -->
+    <div class="auth-footer">
+      <span>Already have an account?</span>
+      <!-- <a routerLink="/auth/login" class="login-link">Log in</a> -->
+      <a [routerLink]="['/auth/login']" [queryParams]="{ role: selectedRole }" class="login-link"
+        >Log in</a
+      >
+    </div>
   </div>
-
-  </div>
-
 </form>

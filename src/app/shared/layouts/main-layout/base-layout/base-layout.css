@@ -10,7 +10,6 @@
   flex: 1;
   padding: 24px;
   overflow: hidden;
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
+  background-color: var(--main-bg);
 }
-
-

@@ -9,6 +9,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AuthService } from '../../../services/auth.service';
+import { RoleService } from '../../../services/role.service';
 
 @Component({
   selector: 'app-registration',
@@ -32,6 +33,7 @@ export class Registration {
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
   private readonly route = inject(ActivatedRoute);
+  private readonly roleService = inject(RoleService);
 
   signupForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -57,6 +59,7 @@ export class Registration {
     const role = this.route.snapshot.queryParamMap.get('role');
 
     this.selectedRole = role === 'doctor' ? 'doctor' : 'patient';
+    this.roleService.setSelectedRole(this.selectedRole);
 
     this.signupForm.patchValue({
       role: role === 'doctor' ? 1 : 2, // 1 = Doctor, 2 = Patient
@@ -76,7 +79,9 @@ export class Registration {
           verticalPosition: 'top',
         });
 
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/auth/login'], {
+          queryParams: { role: this.selectedRole },
+        });
       },
       error: (err) => {
         const apiError = err?.error;
