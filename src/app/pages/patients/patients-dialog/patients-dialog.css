@@ -1,5 +1,46 @@
-.content p {
-  margin: 8px 0;
+.text-heading {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.content {
+  padding-top: 12px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.detail-item {
+  background: #f9fafb;
+  padding: 12px 14px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-item.full {
+  grid-column: span 2;
+}
+
+.label {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.value {
   font-size: 14px;
-  color: #374151;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.primaryBtn {
+  background: var(--primary) !important;
+  color: white;
+  padding: 6px 20px;
+  border-radius: 6px;
 }

@@ -1,27 +1,53 @@
-<h2 mat-dialog-title>Patient Details</h2>
+<h2 mat-dialog-title class="text-heading">
+  Patient Details
+</h2>
 
 <mat-dialog-content class="content">
-  <p><strong>Date of Birth:</strong> {{ patient?.dateOfBirth }}</p>
+  <div class="details-grid">
+    <div class="detail-item">
+      <span class="label">Date of Birth</span>
+      <span class="value">{{ patient?.dateOfBirth || 'N/A' }}</span>
+    </div>
 
-  <p>
-    <strong>Gender:</strong>
-    {{ getGenderName(patient?.gender) }}
-  </p>
+    <div class="detail-item">
+      <span class="label">Gender</span>
+      <span class="value">{{ getGenderName(patient?.gender) || 'N/A' }}</span>
+    </div>
 
-  <p>
-    <strong>Blood Group:</strong>
-    {{ getBloodGroupName(patient?.bloodGroup) }}
-  </p>
+    <div class="detail-item">
+      <span class="label">Blood Group</span>
+      <span class="value">{{ getBloodGroupName(patient?.bloodGroup) || 'N/A' }}</span>
+    </div>
 
-  <p><strong>Allergies:</strong> {{ patient?.allergies || 'N/A' }}</p>
+    <div class="detail-item full">
+      <span class="label">Allergies</span>
+      <span class="value">{{ patient?.allergies || 'N/A' }}</span>
+    </div>
 
-  <p><strong>Chronic Conditions:</strong> {{ patient?.chronicCondition || 'N/A' }}</p>
+    <div class="detail-item full">
+      <span class="label">Chronic Conditions</span>
+      <span class="value">{{ patient?.chronicCondition || 'N/A' }}</span>
+    </div>
 
-  <p><strong>Emergency Contact Name:</strong> {{ patient?.emergencyContactName }}</p>
+    <div class="detail-item">
+      <span class="label">Emergency Contact</span>
+      <span class="value">{{ patient?.emergencyContactName || 'N/A' }}</span>
+    </div>
 
-  <p><strong>Emergency Contact Phone:</strong> {{ patient?.emergencyContactPhone }}</p>
+    <div class="detail-item">
+      <span class="label">Contact Phone</span>
+      <span class="value">{{ patient?.emergencyContactPhone || 'N/A' }}</span>
+    </div>
+  </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-flat-button color="primary" (click)="close()">Close</button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="close()"
+    class="primaryBtn"
+  >
+    Close
+  </button>
 </mat-dialog-actions>
