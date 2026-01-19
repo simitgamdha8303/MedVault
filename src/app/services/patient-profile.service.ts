@@ -11,4 +11,8 @@ export class PatientprofileService {
   create(payload: any) {
     return this.http.post<any>(this.baseUrl, payload);
   }
+
+  getById(id: number) {
+    return this.http.get<any>(`${this.baseUrl}/${id}`);
+  }
 }

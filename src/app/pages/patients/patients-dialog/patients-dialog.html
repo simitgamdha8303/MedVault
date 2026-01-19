@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Patient Details</h2>
+
+<mat-dialog-content class="content">
+  <p><strong>Date of Birth:</strong> {{ patient?.dateOfBirth }}</p>
+
+  <p>
+    <strong>Gender:</strong>
+    {{ getGenderName(patient?.gender) }}
+  </p>
+
+  <p>
+    <strong>Blood Group:</strong>
+    {{ getBloodGroupName(patient?.bloodGroup) }}
+  </p>
+
+  <p><strong>Allergies:</strong> {{ patient?.allergies || 'N/A' }}</p>
+
+  <p><strong>Chronic Conditions:</strong> {{ patient?.chronicCondition || 'N/A' }}</p>
+
+  <p><strong>Emergency Contact Name:</strong> {{ patient?.emergencyContactName }}</p>
+
+  <p><strong>Emergency Contact Phone:</strong> {{ patient?.emergencyContactPhone }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" (click)="close()">Close</button>
+</mat-dialog-actions>
