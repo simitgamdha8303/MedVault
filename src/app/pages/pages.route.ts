@@ -12,6 +12,7 @@ import { Doctorprofile } from './doctorprofile/doctorprofile';
 import { Patientprofile } from './patientprofile/patientprofile';
 import { Medicaltimeline } from './medicaltimeline/medicaltimeline';
 import { Myprofile } from './myprofile/myprofile';
+import { Patients } from './patients/patients';
 
 export const PAGES_ROUTES: Routes = [
   {
@@ -47,6 +48,12 @@ export const PAGES_ROUTES: Routes = [
         canActivate: [authGuard],
         component: Medicaltimeline,
         data: { role: 'Patient' },
+      },
+       {
+        path: 'patients',
+        canActivate: [authGuard],
+        component: Patients,
+        data: { role: 'Doctor' },
       },
     ],
   },

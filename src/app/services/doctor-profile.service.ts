@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { DoctorProfile } from '../interfaces/doctor-profile';
 
 @Injectable({ providedIn: 'root' })
 export class DoctorProfileService {
@@ -11,5 +10,9 @@ export class DoctorProfileService {
 
   create(payload: any) {
     return this.http.post<any>(this.baseUrl, payload);
+  }
+
+  getPatientsByDoctor() {
+    return this.http.get<any>(`${this.baseUrl}/patients`);
   }
 }

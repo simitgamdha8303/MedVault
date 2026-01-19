@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
+import { RoleService } from '../../../../services/role.service';
 
 @Component({
   selector: 'app-header',
@@ -13,9 +14,11 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class Header {
   private readonly router = inject(Router);
+  private roleService = inject(RoleService);
 
   logout() {
     localStorage.removeItem('token');
+    this.roleService.setSelectedRole('patient');
     this.router.navigate(['/auth/login']);
   }
 

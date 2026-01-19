@@ -1,0 +1,36 @@
+<h2 class="title text-heading">My Patients</h2>
+
+<!-- LOADING -->
+<div *ngIf="loading()">Loading patients...</div>
+
+<!-- EMPTY -->
+<div *ngIf="!loading() && patients().length === 0">
+  No patients found
+</div>
+
+<!-- LIST -->
+<div *ngIf="!loading() && patients().length > 0" class="patients-wrapper">
+  <div class="patient-card" *ngFor="let p of patients(); let i = index">
+
+    <div class="patient-left">
+      <div class="avatar">
+        {{ p.patientName[0] }}
+      </div>
+
+      <div class="patient-info">
+        <h3>{{ p.patientName }}</h3>
+        <p>
+          Total Visits:
+          <strong>{{ p.totalVisits }}</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="patient-actions">
+      <button class="view-btn">
+        View Details
+      </button>
+    </div>
+
+  </div>
+</div>

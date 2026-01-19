@@ -8,5 +8,9 @@
       <mat-icon>view_timeline</mat-icon>
       <span>Medical Timeline</span>
     </a>
+    <a *ngIf="userRole === 'Doctor'" routerLink="/patients" routerLinkActive="active">
+      <mat-icon fontSet = "material-symbols-outlined">patient_list</mat-icon>
+      <span>Patients</span>
+    </a>
   </nav>
 </aside>
