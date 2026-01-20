@@ -9,8 +9,12 @@
       <span>Medical Timeline</span>
     </a>
     <a *ngIf="userRole === 'Doctor'" routerLink="/patients" routerLinkActive="active">
-      <mat-icon fontSet = "material-symbols-outlined">patient_list</mat-icon>
+      <mat-icon fontSet="material-symbols-outlined">patient_list</mat-icon>
       <span>Patients</span>
+    </a>
+    <a *ngIf="userRole === 'Patient'" routerLink="/reminders" routerLinkActive="active">
+      <mat-icon fontSet="material-symbols-outlined">calendar_clock</mat-icon>
+      <span>Reminders</span>
     </a>
   </nav>
 </aside>

@@ -1,0 +1,65 @@
+<!-- Page Header -->
+<div class="page-header">
+  <h2 class="text-heading">Reminders</h2>
+  <button mat-raised-button color="primary" (click)="openAddDialog()">
+    <mat-icon>add</mat-icon>
+    Add Reminder
+  </button>
+</div>
+
+<!-- Table -->
+<div class="table-card">
+  <table class="reminders-table">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Title</th>
+        <th>Time</th>
+        <th>Recurrence</th>
+        <th>Ends On</th>
+        <th class="actions-col">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let r of reminders()">
+        <td>
+          <div class="type">
+            <mat-icon class="type-icon">alarm</mat-icon>
+            {{ r.reminderType }}
+          </div>
+        </td>
+
+        <td class="title">
+          <div class="main">{{ r.title }}</div>
+          <div class="sub">{{ r.description }}</div>
+        </td>
+
+        <td>
+          {{ r.reminderTime | date : 'dd MMM yyyy, hh:mm a' }}
+        </td>
+
+        <td>
+          <span class="badge">{{ r.recurrenceType }}</span>
+        </td>
+
+        <td>
+          <span *ngIf="r.recurrenceEndDate; else noEnd">
+            {{ r.recurrenceEndDate | date : 'dd MMM yyyy' }}
+          </span>
+          <ng-template #noEnd>—</ng-template>
+        </td>
+
+        <td class="actions">
+          <button mat-icon-button class="btnPrimary" (click)="openEditDialog(r.id)">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat-icon-button class="btnDanger">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

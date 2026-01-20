@@ -1,0 +1,102 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.table-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Table */
+.reminders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.reminders-table thead {
+  background: #f4f6f8;
+}
+
+.reminders-table th {
+  text-align: left;
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.reminders-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.reminders-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.reminders-table tbody tr:hover {
+  background: #f9fbff;
+}
+
+/* Type */
+.type {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.type-icon {
+  color: #1565c0;
+}
+
+/* Title */
+.title .main {
+  font-weight: 600;
+}
+
+.title .sub {
+  font-size: 12px;
+  color: #666;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Badge */
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: var(--sidebar-active);
+  color: #1565c0;
+}
+
+/* Actions */
+.actions-col {
+  text-align: right;
+  width: 120px;
+}
+
+.reminders-table td:nth-child(5) {
+  color: #555;
+  font-size: 13px;
+}
+
+.btnPrimary {
+  color: #1565c0;
+}
+
+.btnDanger {
+  color: #ce0d09;
+}

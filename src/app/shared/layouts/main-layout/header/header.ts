@@ -5,6 +5,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
 import { RoleService } from '../../../../services/role.service';
+import { AuthService } from '../../../../services/auth.service';
+import { NotificationService } from '../../../../services/notification.service';
 
 @Component({
   selector: 'app-header',
@@ -15,10 +17,14 @@ import { RoleService } from '../../../../services/role.service';
 export class Header {
   private readonly router = inject(Router);
   private roleService = inject(RoleService);
+  private authService = inject(AuthService);
+  private notificationService = inject(NotificationService);
 
   logout() {
     localStorage.removeItem('token');
     this.roleService.setSelectedRole('patient');
+    this.notificationService.stop();
+
     this.router.navigate(['/auth/login']);
   }
 

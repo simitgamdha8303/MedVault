@@ -11,6 +11,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../../services/auth.service';
 import { LoginRequest } from '../../../interfaces/login-request';
 import { RoleService } from '../../../services/role.service';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,7 @@ export class Login implements OnInit {
   private route = inject(ActivatedRoute);
   private readonly snackBar = inject(MatSnackBar);
   private roleService = inject(RoleService);
+    private notificationService = inject(NotificationService);
 
   selectedRole: 'doctor' | 'patient' = 'patient';
 
@@ -96,6 +98,7 @@ export class Login implements OnInit {
           this.router.navigate(['/auth/otp-verification']);
         } else {
           localStorage.setItem('token', res.data.token!);
+          this.notificationService.startConnection();
           const userRole = this.auth.getUserRole();
           if (res.data.requiresProfile) {
             this.router.navigate(['/dashboard']);

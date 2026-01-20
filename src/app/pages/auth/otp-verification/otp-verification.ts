@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { ApiResponse } from '../../../interfaces/api-response';
 import { OtpResponse } from '../../../interfaces/otp-response';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-otp-verification',
@@ -32,6 +33,7 @@ export class OtpVerification {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
+  private notificationService = inject(NotificationService);
 
   otpForm: FormGroup = this.fb.group({
     otp: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
@@ -54,6 +56,7 @@ export class OtpVerification {
         });
 
         localStorage.setItem('token', res.data.token);
+        this.notificationService.startConnection();
         sessionStorage.removeItem('otpUserId');
         sessionStorage.removeItem('otpRole');
         const userRole = this.auth.getUserRole();

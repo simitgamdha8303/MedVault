@@ -29,4 +29,12 @@ export class LookupService {
   getHospitals() {
     return this.http.get<any>(`${this.baseUrl}/hospitals`);
   }
+
+  getReminderTypes() {
+    return this.http.get<ApiResponse<any>>(`${this.baseUrl}/reminder-type`);
+  }
+
+  getRecurrenceType() {
+    return this.http.get<ApiResponse<any>>(`${this.baseUrl}/recurrence-type`);
+  }
 }

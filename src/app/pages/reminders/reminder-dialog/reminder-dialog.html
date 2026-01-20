@@ -1,0 +1,114 @@
+<h2 mat-dialog-title class="dialog-title text-heading">
+  <mat-icon>alarm</mat-icon>
+  {{ isEdit() ? 'Edit Reminder' : 'Add Reminder' }}
+</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-dialog-content class="dialog-content">
+    <div class="section">
+      <h3 class="section-title">Reminder Information</h3>
+
+      <!-- Reminder Type -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Reminder Type</mat-label>
+        <mat-icon matPrefix>category</mat-icon>
+        <mat-select formControlName="reminderType">
+          <mat-option *ngFor="let t of reminderTypes()" [value]="t.id">
+            {{ t.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Title -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Title</mat-label>
+        <mat-icon matPrefix>title</mat-icon>
+        <input matInput formControlName="title" aria-label="title" />
+      </mat-form-field>
+
+      <!-- Description -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          rows="3"
+          formControlName="description"
+          aria-label="description">
+        </textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="section two-column">
+
+      <!-- Reminder Date -->
+      <mat-form-field appearance="outline">
+        <mat-label>Reminder Date</mat-label>
+        <input
+          matInput
+          aria-label="reminderDate"
+          [matDatepicker]="datePicker"
+          formControlName="reminderDate"
+          [min]="today"
+          readonly
+          (click)="datePicker.open()" />
+        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+        <mat-datepicker #datePicker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- Reminder Time -->
+      <mat-form-field appearance="outline">
+        <mat-label>Reminder Time</mat-label>
+        <input
+        aria-label="reminderTime"
+          matInput
+          type="time"
+          formControlName="reminderTime" />
+      </mat-form-field>
+
+    </div>
+
+    <div class="section two-column">
+
+      <!-- Recurrence Type -->
+      <mat-form-field appearance="outline">
+        <mat-label>Recurrence</mat-label>
+        <mat-icon matPrefix>repeat</mat-icon>
+        <mat-select formControlName="recurrenceType">
+          <mat-option *ngFor="let r of recurrenceTypes()" [value]="r.id">
+            {{ r.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Recurrence End Date -->
+      <mat-form-field appearance="outline">
+        <mat-label>Recurrence End Date</mat-label>
+        <input
+          matInput
+          aria-label="recurrenceEndDate"
+          [matDatepicker]="endPicker"
+          [min]="form.get('reminderDate')?.value"
+          formControlName="recurrenceEndDate" />
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-raised-button type="button" (click)="close()">
+      Cancel
+    </button>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid">
+      <mat-icon>save</mat-icon>
+      Save
+    </button>
+  </mat-dialog-actions>
+</form>
