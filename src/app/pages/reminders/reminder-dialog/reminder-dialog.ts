@@ -31,7 +31,6 @@ import { ReminderService } from '../../../services/reminder.service';
   ],
 })
 export class ReminderDialogComponent {
-
   private fb = inject(FormBuilder);
   private dialogRef = inject(MatDialogRef<ReminderDialogComponent>);
   private lookupService = inject(LookupService);
@@ -48,7 +47,6 @@ export class ReminderDialogComponent {
   reminder = signal<any | null>(null);
 
   constructor() {
-   
     this.isEdit.set(this.data?.mode === 'edit');
 
     this.form = this.fb.group({
@@ -85,16 +83,23 @@ export class ReminderDialogComponent {
         recurrenceType: recurrence?.id ?? null,
         recurrenceEndDate: reminder.recurrenceEndDate ? new Date(reminder.recurrenceEndDate) : null,
       });
+
+      if (recurrence?.id !== this.recurrenceNoneId()) {
+        this.form.get('recurrenceEndDate')?.enable({ emitEvent: false });
+      }
     });
 
-    effect(() => {
+    this.form.get('recurrenceType')!.valueChanges.subscribe((value) => {
       const noneId = this.recurrenceNoneId();
-      const value = this.form.get('recurrenceType')?.value;
-
-      if (!noneId) return;
-
+      if (noneId === null) return;
       const endCtrl = this.form.get('recurrenceEndDate');
-      value === noneId ? endCtrl?.disable() : endCtrl?.enable();
+
+      if (value && value !== this.recurrenceNoneId()) {
+        endCtrl?.enable();
+      } else {
+        endCtrl?.disable();
+        endCtrl?.setValue(null);
+      }
     });
 
     this.loadLookups();
