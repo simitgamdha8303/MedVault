@@ -14,6 +14,7 @@ import { Medicaltimeline } from './medicaltimeline/medicaltimeline';
 import { Myprofile } from './myprofile/myprofile';
 import { Patients } from './patients/patients';
 import { Reminders } from './reminders/reminders';
+import { PatientDashboard } from './patient-dashboard/patient-dashboard';
 
 export const PAGES_ROUTES: Routes = [
   {
@@ -60,6 +61,12 @@ export const PAGES_ROUTES: Routes = [
         path: 'reminders',
         canActivate: [authGuard],
         component: Reminders,
+        data: { role: 'Patient' },
+      },
+      {
+        path: 'patient-dashboard',
+        canActivate: [authGuard],
+        component: PatientDashboard,
         data: { role: 'Patient' },
       },
     ],

@@ -1,0 +1,90 @@
+<div class="dashboard">
+  <div class="main-area">
+    <!-- ===== Summary Cards ===== -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Records Uploaded</div>
+        <div class="stat-value">{{ totalRecords() }}</div>
+      </div>
+
+      <div class="stat-card" *ngIf="lastVisit(); else noVisit">
+        <div class="stat-label">Last Doctor Visit</div>
+        <div class="stat-value">{{ lastVisit()?.visitDate | date : 'dd MMM yyyy' }}</div>
+        <div class="stat-subtext">{{ lastVisit()?.doctorName }}</div>
+      </div>
+
+      <ng-template #noVisit>
+        <div class="stat-card">
+          <div class="stat-label">Last Doctor Visit</div>
+          <div class="stat-value">—</div>
+          <div class="stat-subtext">No visits yet</div>
+        </div>
+      </ng-template>
+
+      <div class="stat-card">
+        <div class="stat-label">Upcoming Appointment</div>
+        <div class="stat-value highlight">{{ upcomingAppointment() || '—' }}</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3>Visit Analytics</h3>
+
+        <div class="filters">
+          <select
+            [value]="chartFilter()"
+            (change)="setFilter($any($event.target).value)"
+            aria-label="chartFilter"
+          >
+            <option value="current-month">Current Month</option>
+            <option value="last-3-months">Last 3 Months</option>
+            <option value="current-year">Current Year</option>
+            <option value="last-year">Last Year</option>
+          </select>
+        </div>
+      </div>
+
+      <canvas id="visitChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Right column -->
+  <div class="right-column">
+    <!-- Calendar -->
+    <div class="calendar-card">
+      <div class="time">
+        {{ now() | date : 'fullDate' }} <br />
+        <span class="clock">
+          {{ now() | date : 'HH:mm:ss' }}
+        </span>
+      </div>
+
+      <mat-calendar
+        [selected]="selectedDate() ?? now()"
+        [dateClass]="dateClass"
+        (selectedChange)="onDateSelected($event)"
+      >
+      </mat-calendar>
+    </div>
+
+    <!-- Side Panel -->
+    <div class="side-panel" *ngIf="selectedDate()">
+      <div class="side-panel-header">
+        <h3>Reminders on {{ selectedDate() | date : 'fullDate' }}</h3>
+
+        <div *ngIf="selectedReminders().length === 0" class="empty">No reminders for this date</div>
+      </div>
+
+      <div class="side-panel-body">
+        <div class="reminder-card" *ngFor="let r of selectedReminders()">
+          <div class="title">{{ r.title }}</div>
+          <div class="time">
+            {{ r.reminderTime | date : 'hh:mm a' }}
+          </div>
+          <div class="desc">{{ r.description }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

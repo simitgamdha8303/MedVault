@@ -1,6 +1,10 @@
 <aside class="sidebar">
   <nav>
-    <a routerLink="/dashboard" routerLinkActive="active">
+    <a *ngIf="userRole === 'Patient'" routerLink="/patient-dashboard" routerLinkActive="active">
+      <mat-icon>dashboard</mat-icon>
+      <span>Dashboard</span>
+    </a>
+    <a *ngIf="userRole === 'Doctor'" routerLink="/dashboard" routerLinkActive="active">
       <mat-icon>dashboard</mat-icon>
       <span>Dashboard</span>
     </a>
