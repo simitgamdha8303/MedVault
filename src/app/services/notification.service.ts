@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { AuthService } from './auth.service';
 import { SnackbarService } from './snackbar.service';
@@ -7,8 +7,8 @@ import { environment } from '../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
   private hubConnection?: signalR.HubConnection;
-
-  constructor(private authService: AuthService, private snackbar: SnackbarService) {}
+  private authService = inject(AuthService);
+  private snackbar = inject(SnackbarService);
 
   startConnection(): void {
     const token = this.authService.getToken();

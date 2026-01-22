@@ -14,14 +14,11 @@ import { LookupService } from '../../../services/lookup.service';
 })
 export class PatientsDialog implements OnInit {
   private readonly lookupService = inject(LookupService);
+  private dialogRef = inject(MatDialogRef<PatientsDialog>);
+  @Inject(MAT_DIALOG_DATA) public data: any;
 
   genders = signal<EnumLookup[]>([]);
   bloodGroups = signal<EnumLookup[]>([]);
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public patient: any,
-    private dialogRef: MatDialogRef<PatientsDialog>
-  ) {}
 
   ngOnInit() {
     this.loadLookups();

@@ -94,12 +94,4 @@ export class Patientprofile implements OnInit {
       },
     });
   }
-
-  private formatDateOnly(date: Date | string | null): string | null {
-  if (!date) return null;
-
-  const d = new Date(date);
-  return d.toISOString().split('T')[0]; // yyyy-MM-dd
-}
-
 }

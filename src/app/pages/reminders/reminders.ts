@@ -20,13 +20,12 @@ export class Reminders implements OnInit, OnDestroy {
   private dialog = inject(MatDialog);
   private snackbarService = inject(SnackbarService);
   private readonly snackBar = inject(MatSnackBar);
+  private reminderService = inject(ReminderService);
 
   private sub?: Subscription;
 
   reminders = signal<any[]>([]);
   loading = signal(false);
-
-  constructor(private reminderService: ReminderService) {}
 
   ngOnInit(): void {
     this.loadReminders();
