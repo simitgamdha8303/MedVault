@@ -118,7 +118,7 @@ export class MyprofileDialog implements OnInit {
       licenseNumber: this.isDoctor ? raw.licenseNumber : null,
       hospitalId: this.isDoctor ? raw.hospitalId : null,
 
-      dateOfBirth: this.isPatient ? this.formatDateOnly(raw.dateOfBirth) : null,
+      dateOfBirth: this.isPatient ? raw.dateOfBirth : null,
       gender: this.isPatient ? raw.gender : null,
       bloodGroup: this.isPatient ? raw.bloodGroup : null,
       allergies: this.isPatient ? raw.allergies : null,

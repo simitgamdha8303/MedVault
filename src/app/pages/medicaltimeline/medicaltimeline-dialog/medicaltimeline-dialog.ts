@@ -141,7 +141,7 @@ export class MedicaltimelineDialogComponent implements OnInit {
       doctorProfileId: raw.doctorProfileId,
       doctorName: raw.doctorProfileId ? null : raw.doctorName,
       checkupType: raw.checkupType,
-      eventDate: date ? date.toISOString().split('T')[0] : null,
+      eventDate: raw.eventDate,
       notes: raw.notes,
     };
 
@@ -274,7 +274,7 @@ export class MedicaltimelineDialogComponent implements OnInit {
               medicalTimelineId: timelineId,
               fileName: file.name,
               fileUrl: res.secure_url,
-              documentDate: new Date().toISOString().split('T')[0],
+              documentDate: new Date(),
             })
           )
         )
