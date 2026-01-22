@@ -1,12 +1,10 @@
-<h2 mat-dialog-title class="text-heading">
-  Patient Details
-</h2>
+<h2 mat-dialog-title class="text-heading">Patient Details</h2>
 
 <mat-dialog-content class="content">
   <div class="details-grid">
     <div class="detail-item">
       <span class="label">Date of Birth</span>
-      <span class="value">{{ patient?.dateOfBirth || 'N/A' }}</span>
+      <span class="value">{{ (patient?.dateOfBirth | date : 'dd MMM yyyy') || 'N/A' }}</span>
     </div>
 
     <div class="detail-item">
@@ -42,12 +40,5 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button
-    mat-flat-button
-    color="primary"
-    (click)="close()"
-    class="primaryBtn"
-  >
-    Close
-  </button>
+  <button mat-flat-button color="primary" (click)="close()" class="primaryBtn">Close</button>
 </mat-dialog-actions>

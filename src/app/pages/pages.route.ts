@@ -42,8 +42,13 @@ export const PAGES_ROUTES: Routes = [
     canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: Dashboard },
       { path: 'myprofile', component: Myprofile },
+      {
+        path: 'dashboard',
+        canActivate: [authGuard],
+        component: Dashboard,
+        data: { role: 'Doctor' },
+      },
 
       {
         path: 'medicaltimeline',

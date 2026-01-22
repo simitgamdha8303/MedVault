@@ -25,4 +25,20 @@ export class DashboardService {
   getVisitChart(filter: VisitChartFilter) {
     return this.http.get<any>(`${this.baseUrl}/visit-chart?filter=${filter}`);
   }
+
+  getLastCheckup() {
+    return this.http.get<any>(`${this.baseUrl}/last-checkup`);
+  }
+
+  getTotalCheckups() {
+    return this.http.get<any>(`${this.baseUrl}/total-checkups`);
+  }
+
+  getTopPatients() {
+    return this.http.get<any>(`${this.baseUrl}/top-patients`);
+  }
+
+  getDoctorVisitChart(filter: VisitChartFilter) {
+    return this.http.get<any>(`${this.baseUrl}/doctor-visit-chart?filter=${filter}`);
+  }
 }

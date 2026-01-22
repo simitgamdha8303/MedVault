@@ -14,10 +14,12 @@ export const authGuard: CanActivateFn = (route) => {
   const allowedRole = route.data?.['role'];
   const userRole = auth.getUserRole();
   if (allowedRole && userRole !== allowedRole) {
-    router.navigate(['/dashboard']);
+    if (userRole == 'Patient') {
+      router.navigate(['/patient-dashboard']);
+    } else {
+      router.navigate(['/dashboard']);
+    }
     return false;
   }
   return true;
 };
-
-

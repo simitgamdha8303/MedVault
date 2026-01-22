@@ -76,7 +76,6 @@ export class Patientprofile implements OnInit {
 
     const payload = {
       ...formValue,
-       dateOfBirth: this.formatDateOnly(formValue.dateOfBirth!)
     };
 
     this.patientProfileService.create(payload).subscribe({

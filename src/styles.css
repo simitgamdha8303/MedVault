@@ -1,14 +1,11 @@
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   overflow: hidden;
 }
 
-/* .text-heading{
-  color: #0b2c4d !important;
-} */
-
-.text-heading{
+.text-heading {
   color: var(--primary) !important;
 }
 

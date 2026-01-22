@@ -21,7 +21,7 @@
 
 /* Scroll container */
 .timeline-scroll {
-  max-height: calc(100vh - 220px); /* adjust if needed */
+  max-height: calc(100vh - 220px); 
   overflow-y: auto;
   padding-right: 8px;
 }
