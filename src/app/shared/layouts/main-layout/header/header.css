@@ -44,3 +44,8 @@
   align-items: end;
   gap: 3px;
 }
+
+.welcome-text {
+  font-size: 16px;
+  color: #ffffff;
+}

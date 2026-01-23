@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -14,11 +14,17 @@ import { NotificationService } from '../../../../services/notification.service';
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
-export class Header {
+export class Header implements OnInit {
   private readonly router = inject(Router);
   private roleService = inject(RoleService);
   private authService = inject(AuthService);
   private notificationService = inject(NotificationService);
+
+  userName = signal<string | null>('');
+
+  ngOnInit(): void {
+    this.userName.set(this.authService.getUserName());
+  }
 
   logout() {
     localStorage.removeItem('token');

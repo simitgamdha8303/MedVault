@@ -30,7 +30,6 @@
       <div class="chart-header">
         <h3>Visit Analytics</h3>
 
-        <div class="filters">
           <select
             [value]="chartFilter()"
             (change)="setFilter($any($event.target).value)"
@@ -41,7 +40,6 @@
             <option value="current-year">Current Year</option>
             <option value="last-year">Last Year</option>
           </select>
-        </div>
       </div>
 
       <canvas id="visitChart"></canvas>

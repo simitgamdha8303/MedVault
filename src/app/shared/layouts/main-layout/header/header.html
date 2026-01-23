@@ -11,6 +11,7 @@
     <div class="brand"><span class="logo">M</span>edVault</div>
 
     <span class="example-spacer"></span>
+    <span class="welcome-text">Welcome, {{ userName() }}</span>
     <button matIconButton [matMenuTriggerFor]="menu"><mat-icon>account_circle</mat-icon></button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item routerLink="/myprofile"><mat-icon>person</mat-icon>My Profile</button>
