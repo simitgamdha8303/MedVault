@@ -2,12 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Chart, TooltipItem } from 'chart.js/auto';
 import { DashboardService } from '../../services/dashboard.service';
+import { Subscription } from 'rxjs';
+// import { Medicaltimeline } from '../medicaltimeline/medicaltimeline';
 
-type VisitChartFilter =
-  | 'current-month'
-  | 'last-3-months'
-  | 'current-year'
-  | 'last-year';
+type VisitChartFilter = 'current-month' | 'last-3-months' | 'current-year' | 'last-year';
 
 @Component({
   selector: 'app-dashboard',
@@ -47,14 +45,12 @@ export class Dashboard implements OnInit {
   }
 
   loadVisitChart() {
-    this.dashboardService
-      .getDoctorVisitChart(this.chartFilter())
-      .subscribe((res) => {
-        if (res.succeeded) {
-          this.visitChartData.set(res.data);
-          this.renderChart();
-        }
-      });
+    this.dashboardService.getDoctorVisitChart(this.chartFilter()).subscribe((res) => {
+      if (res.succeeded) {
+        this.visitChartData.set(res.data);
+        this.renderChart();
+      }
+    });
   }
 
   renderChart() {

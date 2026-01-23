@@ -15,6 +15,7 @@ import { MedicalTimelineService } from '../../services/medical-timeline.service'
 import { LookupService } from '../../services/lookup.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-medicaltimeline',
@@ -125,6 +126,7 @@ export class Medicaltimeline implements OnInit {
         });
 
         this.loadTimelines();
+       
       },
       error: (err) => {
         const apiError = err?.error;
