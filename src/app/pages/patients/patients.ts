@@ -44,7 +44,6 @@ export class Patients implements OnInit {
   }
 
   openPatientDialog(patientId: any) {
-    console.log(patientId);
 
     this.patientProfileService.getById(patientId).subscribe({
       next: (res) => {

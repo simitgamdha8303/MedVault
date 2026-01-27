@@ -16,6 +16,7 @@ import { Patients } from './patients/patients';
 import { Reminders } from './reminders/reminders';
 import { PatientDashboard } from './patient-dashboard/patient-dashboard';
 import { ShareRecords } from './share-records/share-records';
+import { QrShares } from './qr-shares/qr-shares';
 
 export const PAGES_ROUTES: Routes = [
   {
@@ -48,6 +49,12 @@ export const PAGES_ROUTES: Routes = [
         path: 'dashboard',
         canActivate: [authGuard],
         component: Dashboard,
+        data: { role: 'Doctor' },
+      },
+       {
+        path: 'qr-shares',
+        canActivate: [authGuard],
+        component: QrShares,
         data: { role: 'Doctor' },
       },
 

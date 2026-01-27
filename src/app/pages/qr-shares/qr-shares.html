@@ -1,0 +1,55 @@
+<!-- Page Header -->
+<div class="page-header">
+  <h2 class="text-heading">QR Shares</h2>
+</div>
+
+<!-- Table -->
+<div class="table-card">
+  <table class="qr-table">
+    <thead>
+      <tr>
+        <th>Patient</th>
+        <th>Expires On</th>
+        <th>Created On</th>
+        <th class="actions-col">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let q of qrShares()">
+        <!-- Patient -->
+        <td>
+          <div class="type">
+            <mat-icon class="type-icon">person</mat-icon>
+            {{ q.patientName }}
+          </div>
+        </td>
+
+        <!-- Expiry -->
+        <td>
+          {{ q.expiresAt | date : 'dd MMM yyyy, hh:mm a' }}
+        </td>
+
+        <!-- Created -->
+        <td>
+          {{ q.createdAt | date : 'dd MMM yyyy' }}
+        </td>
+
+        <!-- Actions -->
+        <td class="actions-col">
+          <div class="actions-wrapper">
+            <button mat-icon-button class="btnDanger">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="!qrShares().length">
+    <mat-icon>qr_code_2</mat-icon>
+    <p>No QR shares available yet</p>
+  </div>
+</div>

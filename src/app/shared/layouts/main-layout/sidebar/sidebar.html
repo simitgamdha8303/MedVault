@@ -24,5 +24,9 @@
       <mat-icon fontSet="material-symbols-outlined">qr_code</mat-icon>
       <span> Share Records</span>
     </a>
+    <a *ngIf="userRole === 'Doctor'" routerLink="/qr-shares" routerLinkActive="active">
+      <mat-icon fontSet="material-symbols-outlined">qr_code</mat-icon>
+      <span>QR Shares</span>
+    </a>
   </nav>
 </aside>

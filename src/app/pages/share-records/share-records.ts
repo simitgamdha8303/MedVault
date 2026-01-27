@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { QrShareService } from '../../services/qr-share.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ShareRecordsDialog } from '../share-records-dialog/share-records-dialog';
+import { ShareRecordsDialog } from './share-records-dialog/share-records-dialog';
 
 @Component({
   selector: 'app-share-records',

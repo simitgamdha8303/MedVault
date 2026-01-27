@@ -7,9 +7,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { LookupService } from '../../services/lookup.service';
-import { QrShareService } from '../../services/qr-share.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { LookupService } from '../../../services/lookup.service';
+import { QrShareService } from '../../../services/qr-share.service';
 
 @Component({
   selector: 'app-share-records-dialog',

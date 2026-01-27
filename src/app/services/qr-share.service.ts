@@ -13,6 +13,10 @@ export class QrShareService {
     return this.http.get<ApiResponse<any[]>>(`${this.baseUrl}/patient`);
   }
 
+  getByDoctor() {
+    return this.http.get<ApiResponse<any[]>>(`${this.baseUrl}/doctor`);
+  }
+
   getById(id: string) {
     return this.http.get<ApiResponse<any>>(`${this.baseUrl}/${id}`);
   }
