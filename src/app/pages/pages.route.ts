@@ -15,6 +15,7 @@ import { Myprofile } from './myprofile/myprofile';
 import { Patients } from './patients/patients';
 import { Reminders } from './reminders/reminders';
 import { PatientDashboard } from './patient-dashboard/patient-dashboard';
+import { ShareRecords } from './share-records/share-records';
 
 export const PAGES_ROUTES: Routes = [
   {
@@ -66,6 +67,12 @@ export const PAGES_ROUTES: Routes = [
         path: 'reminders',
         canActivate: [authGuard],
         component: Reminders,
+        data: { role: 'Patient' },
+      },
+      {
+        path: 'share-records',
+        canActivate: [authGuard],
+        component: ShareRecords,
         data: { role: 'Patient' },
       },
       {

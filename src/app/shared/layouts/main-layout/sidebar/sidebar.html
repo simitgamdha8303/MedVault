@@ -20,5 +20,9 @@
       <mat-icon fontSet="material-symbols-outlined">calendar_clock</mat-icon>
       <span>Reminders</span>
     </a>
+    <a *ngIf="userRole === 'Patient'" routerLink="/share-records" routerLinkActive="active">
+      <mat-icon fontSet="material-symbols-outlined">qr_code</mat-icon>
+      <span> Share Records</span>
+    </a>
   </nav>
 </aside>

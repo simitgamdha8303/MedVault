@@ -1,0 +1,78 @@
+<!-- Page Header -->
+<div class="page-header">
+  <h2 class="text-heading">QR Shares</h2>
+
+  <button mat-raised-button color="primary" (click)="openAddDialog()">
+    <mat-icon>qr_code</mat-icon>
+    Share Access
+  </button>
+</div>
+
+<!-- Table -->
+<div class="table-card">
+  <table class="qr-table">
+    <thead>
+      <tr>
+        <th>Doctor</th>
+        <th>Expires On</th>
+        <th>Status</th>
+        <th>Created On</th>
+        <th class="actions-col">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let q of qrShares()">
+        <!-- Doctor -->
+        <td>
+          <div class="type">
+            <mat-icon class="type-icon">person</mat-icon>
+            {{ q.doctorName }}
+          </div>
+        </td>
+
+        <!-- Expiry -->
+        <td>
+          {{ q.expiresAt | date : 'dd MMM yyyy, hh:mm a' }}
+        </td>
+
+        <!-- Status -->
+        <td>
+          <span
+            class="badge"
+            [ngClass]="{
+              'badge-danger': getStatus(q) === 'Expired',
+              'badge-warning': getStatus(q) === 'Used',
+              'badge-success': getStatus(q) === 'Not Used'
+            }"
+          >
+            {{ getStatus(q) }}
+          </span>
+        </td>
+
+        <!-- Created -->
+        <td>
+          {{ q.createdAt | date : 'dd MMM yyyy' }}
+        </td>
+
+        <!-- Actions -->
+        <td class="actions-col">
+          <div class="actions-wrapper">
+            <button
+              mat-icon-button
+              class="btnDanger"
+              (click)="confirmDelete(q.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="!qrShares().length">
+    <mat-icon>qr_code_2</mat-icon>
+    <p>No QR shares created yet</p>
+  </div>
+</div>
