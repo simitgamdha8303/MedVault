@@ -21,10 +21,6 @@ export class QrShareService {
     return this.http.post<ApiResponse<string>>(this.baseUrl, payload);
   }
 
-  update(id: string, payload: any) {
-    return this.http.put<ApiResponse<string>>(`${this.baseUrl}/${id}`, payload);
-  }
-
   delete(id: string) {
     return this.http.delete<ApiResponse<string>>(`${this.baseUrl}/${id}`);
   }
