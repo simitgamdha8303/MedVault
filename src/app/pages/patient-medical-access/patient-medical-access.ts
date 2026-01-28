@@ -19,11 +19,9 @@ import { QrShareService } from '../../services/qr-share.service';
 })
 export class PatientMedicalAccess implements OnInit {
 
-  // 🔹 SIGNAL STATE
   loading = signal<boolean>(true);
   data = signal<any | null>(null);
 
-  // 🔹 DI
   private route = inject(ActivatedRoute);
   private qrShareService = inject(QrShareService);
   private snackBar = inject(MatSnackBar);
