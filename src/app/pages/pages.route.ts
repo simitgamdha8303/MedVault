@@ -17,6 +17,7 @@ import { Reminders } from './reminders/reminders';
 import { PatientDashboard } from './patient-dashboard/patient-dashboard';
 import { ShareRecords } from './share-records/share-records';
 import { QrShares } from './qr-shares/qr-shares';
+import { PatientMedicalAccess } from './patient-medical-access/patient-medical-access';
 
 export const PAGES_ROUTES: Routes = [
   {
@@ -51,13 +52,12 @@ export const PAGES_ROUTES: Routes = [
         component: Dashboard,
         data: { role: 'Doctor' },
       },
-       {
+      {
         path: 'qr-shares',
         canActivate: [authGuard],
         component: QrShares,
         data: { role: 'Doctor' },
       },
-
       {
         path: 'medicaltimeline',
         canActivate: [authGuard],
@@ -105,5 +105,11 @@ export const PAGES_ROUTES: Routes = [
     canActivate: [authGuard],
     data: { role: 'Patient' },
     children: [{ path: '', component: Patientprofile }],
+  },
+  {
+    path: 'patient-medical-access',
+    canActivate: [authGuard],
+    component: PatientMedicalAccess,
+    data: { role: 'Doctor' },
   },
 ];

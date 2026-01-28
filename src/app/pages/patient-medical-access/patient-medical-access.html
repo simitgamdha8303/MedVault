@@ -1,0 +1,103 @@
+<!-- Loading -->
+<div *ngIf="loading()" class="loading">Loading patient medical records…</div>
+
+<!-- Page -->
+<div *ngIf="data()" class="medical-access-page doctor-theme">
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="header-left">
+      <div class="avatar">P</div>
+      <div>
+        <h1>Patient Medical Access</h1>
+        <p>Secure, read-only access via QR</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- PATIENT SUMMARY -->
+  <section class="patient-summary card">
+    <h2>Patient Summary</h2>
+
+    <div class="summary-grid">
+      <div>
+        <label>Date of Birth</label>
+        <span>{{ data()!.patientProfile.dateOfBirth | date : 'dd MMM yyyy' }}</span>
+      </div>
+
+      <div>
+        <label>Gender</label>
+        <span>{{ data()!.patientProfile.genderValue }}</span>
+      </div>
+
+      <div>
+        <label>Blood Group</label>
+        <span>{{ data()!.patientProfile.bloodGroupValue }}</span>
+      </div>
+
+      <div>
+        <label>Allergies</label>
+        <span>{{ data()!.patientProfile.allergies || 'None' }}</span>
+      </div>
+
+      <div>
+        <label>Chronic Condition</label>
+        <span>{{ data()!.patientProfile.chronicCondition || 'None' }}</span>
+      </div>
+    </div>
+
+    <div class="emergency">
+      <mat-icon>call</mat-icon>
+      <div>
+        <strong>Emergency Contact</strong>
+        <p>
+          {{ data()!.patientProfile.emergencyContactName }}<br />
+          {{ data()!.patientProfile.emergencyContactPhone }}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEDICAL TIMELINE -->
+  <section class="timeline">
+    <h2>Medical Timeline</h2>
+
+    <div class="timeline-scroll">
+    <div class="timeline-list">
+      <div class="timeline-entry" *ngFor="let t of data()!.medicalTimelines">
+        <div class="timeline-marker"></div>
+        <div class="timeline-card">
+          <div class="timeline-header">
+            <div>
+              <h3>{{ t.checkupType }}</h3>
+              <span class="doctor">
+                {{ t.doctorProfileName || t.doctorName || 'Self' }}
+              </span>
+            </div>
+
+            <span class="date">
+              {{ t.eventDate | date : 'dd MMM yyyy' }}
+            </span>
+          </div>
+
+          <p class="notes">
+            {{ t.notes || 'No notes provided for this visit.' }}
+          </p>
+
+          <div class="documents" *ngIf="t.documentResponses?.length">
+            <span
+              class="document"
+              *ngFor="let doc of t.documentResponses"
+              (click)="openDocument(doc.fileUrl)"
+            >
+              <mat-icon>
+                {{ getFileIcon(doc.fileName) }}
+              </mat-icon>
+              {{ doc.fileName }}
+            </span>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+</div>

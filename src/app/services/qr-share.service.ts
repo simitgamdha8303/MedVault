@@ -28,4 +28,18 @@ export class QrShareService {
   delete(id: string) {
     return this.http.delete<ApiResponse<string>>(`${this.baseUrl}/${id}`);
   }
+
+  getQrImage(id: string) {
+    return this.http.get(`${this.baseUrl}/${id}/image`, { responseType: 'blob' });
+  }
+
+  getQrToken(id: string) {
+    return this.http.get(`${this.baseUrl}/${id}/open`, { responseType: 'text' });
+  }
+
+  getPatientAccessByToken(token: string) {
+    return this.http.get<ApiResponse<any>>(
+      `${this.baseUrl}/by-qr-token?token=${encodeURIComponent(token)}`
+    );
+  }
 }

@@ -1,0 +1,51 @@
+.qr-dialog {
+  padding: 16px 20px 20px;
+}
+
+/* Header */
+.qr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.qr-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Close button */
+.close-btn {
+  height: 36px;
+  width: 36px;
+}
+
+/* Body */
+.qr-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 0;
+}
+
+/* Image */
+.qr-image {
+  width: 260px;
+  height: 260px;
+  object-fit: contain;
+  border-radius: 8px;
+  background-color: #fafafa;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.qr-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.qr-actions button {
+  gap: 6px;
+}

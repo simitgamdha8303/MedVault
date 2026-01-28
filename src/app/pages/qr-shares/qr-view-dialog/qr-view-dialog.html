@@ -1,0 +1,23 @@
+<div class="qr-dialog">
+  <!-- Header -->
+  <div class="qr-header">
+    <h2>QR Code</h2>
+
+    <button mat-icon-button class="close-btn" (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="qr-body">
+    <img [src]="data.imageUrl" alt="QR Code" class="qr-image" />
+  </div>
+
+  <!-- Actions -->
+  <div class="qr-actions">
+    <button mat-raised-button color="primary" (click)="openQrLink()">
+      <mat-icon>open_in_new</mat-icon>
+      Open QR Link
+    </button>
+  </div>
+</div>
