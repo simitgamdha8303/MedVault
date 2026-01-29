@@ -1,0 +1,51 @@
+<!-- Page Header -->
+<div class="page-header">
+  <h2 class="text-heading">My Appointments</h2>
+
+  <button mat-raised-button color="primary" (click)="openBookDialog()">
+    <mat-icon>add</mat-icon>
+    Book Appointment
+  </button>
+</div>
+
+<!-- Table -->
+<div class="table-card">
+  <table class="appointments-table">
+    <thead>
+      <tr>
+        <th>Doctor</th>
+        <th>Checkup Type</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let a of appointments()">
+        <td>
+          <div class="cell-center type">
+            <mat-icon class="type-icon">person</mat-icon>
+            {{ a.doctorName }}
+          </div>
+        </td>
+
+        <td><div class="cell-center">{{ a.checkupTypeValue }}</div></td>
+        <td><div class="cell-center">{{ a.appointmentDate | date:'dd MMM yyyy' }}</div></td>
+        <td><div class="cell-center">{{ a.appointmentTime }}</div></td>
+
+        <td>
+          <div class="cell-center">
+            <span class="badge" [ngClass]="a.statusValue.toLowerCase()">
+              {{ a.statusValue }}
+            </span>
+          </div>
+        </td>
+      </tr>
+
+      <tr *ngIf="!appointments().length">
+        <td colspan="5" class="empty">No appointments found</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

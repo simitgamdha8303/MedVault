@@ -1,0 +1,60 @@
+<h2 mat-dialog-title class="dialog-title text-heading">
+  <mat-icon>event</mat-icon>
+  Book Appointment
+</h2>
+
+<form [formGroup]="appointmentForm" (ngSubmit)="submit()">
+  <mat-dialog-content class="dialog-content">
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Doctor</mat-label>
+      <mat-select formControlName="doctorId">
+        <mat-option *ngFor="let d of doctors" [value]="d.id">
+          {{ d.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="appointmentForm.get('doctorId')?.hasError('required')">
+        Doctor is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Checkup Type</mat-label>
+      <mat-select formControlName="checkupType">
+        <mat-option *ngFor="let c of checkupTypes" [value]="c.id">
+          {{ c.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="appointmentForm.get('checkupType')?.hasError('required')">
+        Checkup type is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="dp" aria-label="appointmentDate" formControlName="appointmentDate" />
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp></mat-datepicker>
+      <mat-error *ngIf="appointmentForm.get('appointmentDate')?.hasError('required')">
+        Date is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Time</mat-label>
+      <input matInput type="time" aria-label="appointmentTime" formControlName="appointmentTime" />
+      <mat-error *ngIf="appointmentForm.get('appointmentTime')?.hasError('required')">
+        Time is required
+      </mat-error>
+    </mat-form-field>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-raised-button type="button" (click)="close()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="appointmentForm.invalid">
+      <mat-icon>save</mat-icon>
+      Book
+    </button>
+  </mat-dialog-actions>
+</form>

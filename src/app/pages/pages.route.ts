@@ -18,6 +18,7 @@ import { PatientDashboard } from './patient-dashboard/patient-dashboard';
 import { ShareRecords } from './share-records/share-records';
 import { QrShares } from './qr-shares/qr-shares';
 import { PatientMedicalAccess } from './patient-medical-access/patient-medical-access';
+import { PatientAppointments } from './patient-appointments/patient-appointments';
 
 export const PAGES_ROUTES: Routes = [
   {
@@ -86,6 +87,12 @@ export const PAGES_ROUTES: Routes = [
         path: 'patient-dashboard',
         canActivate: [authGuard],
         component: PatientDashboard,
+        data: { role: 'Patient' },
+      },
+      {
+        path: 'patient-appointments',
+        canActivate: [authGuard],
+        component: PatientAppointments,
         data: { role: 'Patient' },
       },
     ],

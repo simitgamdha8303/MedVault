@@ -1,0 +1,127 @@
+/* Page Header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Table Card */
+.table-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Table */
+.appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Table Cells */
+.appointments-table th,
+.appointments-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 14px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Table Header */
+.appointments-table thead {
+  background: #f4f6f8;
+}
+
+.appointments-table th {
+  font-weight: 600;
+  color: #555;
+}
+
+/* Row Hover */
+.appointments-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.appointments-table tbody tr:hover {
+  background: #f9fbff;
+}
+
+/* 🔑 Uniform Cell Centering */
+.cell-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* Doctor Cell */
+.type {
+  gap: 8px;
+  font-weight: 500;
+}
+
+.type-icon {
+  color: #1565c0;
+  font-size: 20px;
+}
+
+/* Status Badge */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Status Colors */
+.badge.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.badge.confirmed {
+  background: #e6f4ea;
+  color: #137333;
+}
+
+.badge.cancelled {
+  background: #fdecea;
+  color: #b71c1c;
+}
+
+/* Empty State */
+.empty {
+  text-align: center;
+  padding: 30px;
+  color: #777;
+  font-size: 14px;
+}
+
+.dialog-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.dialog-content {
+  display: grid;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .appointments-table th,
+  .appointments-table td {
+    padding: 12px 10px;
+    font-size: 13px;
+  }
+}
