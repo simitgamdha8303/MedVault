@@ -1,0 +1,65 @@
+<div class="page-header">
+  <h2 class="text-heading">My Appointments</h2>
+</div>
+
+<div class="table-card">
+  <table class="appointments-table">
+    <thead>
+      <tr>
+        <th>Patient</th>
+        <th>Checkup</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let a of appointments()">
+        <td>{{ a.patientName }}</td>
+        <td>{{ a.checkupTypeValue }}</td>
+        <td>{{ a.appointmentDate | date:'dd MMM yyyy' }}</td>
+        <td>{{ a.appointmentTime }}</td>
+
+        <td>
+          <span class="badge" [ngClass]="a.statusValue.toLowerCase()">
+            {{ a.statusValue }}
+          </span>
+        </td>
+
+        <td class="actions">
+          <!-- Pending -->
+          <button mat-icon-button color="primary"
+            *ngIf="a.statusValue === 'Pending'"
+            (click)="approve(a.id)">
+            <mat-icon>check</mat-icon>
+          </button>
+
+          <button mat-icon-button color="warn"
+            *ngIf="a.statusValue === 'Pending'"
+            (click)="reject(a.id)">
+            <mat-icon>close</mat-icon>
+          </button>
+
+          <!-- Confirmed -->
+          <button mat-icon-button color="primary"
+            *ngIf="a.statusValue === 'Confirmed'"
+            (click)="complete(a.id)">
+            <mat-icon>done_all</mat-icon>
+          </button>
+
+          <button mat-icon-button color="warn"
+            *ngIf="a.statusValue === 'Confirmed'"
+            (click)="cancel(a.id)">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </td>
+      </tr>
+
+      <tr *ngIf="!appointments().length">
+        <td colspan="6" class="empty">No appointments</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -30,7 +30,11 @@
     </a>
     <a *ngIf="userRole === 'Patient'" routerLink="/patient-appointments" routerLinkActive="active">
       <mat-icon fontSet="material-symbols-outlined">calendar_add_on</mat-icon>
-      <span>Patient Appointments</span>
+      <span>Appointments</span>
+    </a>
+    <a *ngIf="userRole === 'Doctor'" routerLink="/doctor-appointments" routerLinkActive="active">
+      <mat-icon fontSet="material-symbols-outlined">calendar_add_on</mat-icon>
+      <span>Appointments</span>
     </a>
     
   </nav>

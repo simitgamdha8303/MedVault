@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogRef, MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -39,10 +39,13 @@ export class AppointmentDialogComponent implements OnInit {
   private appointmentService = inject(AppointmentService);
   private lookupService = inject(LookupService);
   private snackBar = inject(MatSnackBar);
+  public data = inject(MAT_DIALOG_DATA);
 
   doctors: any[] = [];
   checkupTypes: any[] = [];
   today = new Date(new Date().setHours(0, 0, 0, 0));
+  isEdit = false;
+  appointmentId!: number;
 
   appointmentForm: FormGroup = this.fb.group({
     doctorId: [null, Validators.required],
@@ -60,11 +63,33 @@ export class AppointmentDialogComponent implements OnInit {
   ngOnInit(): void {
     this.loadDoctors();
     this.loadCheckupTypes();
+
+    if (this.data) {
+      this.isEdit = true;
+      this.appointmentId = this.data.id;
+
+      this.appointmentForm.patchValue({
+        doctorId: this.data.doctorId,
+        checkupType: this.data.checkupType,
+        appointmentDate: new Date(this.data.appointmentDate),
+        appointmentTime: this.data.appointmentTime.substring(0, 5),
+      });
+
+      this.appointmentForm.get('doctorId')?.disable();
+    }
   }
 
   loadDoctors(): void {
     this.lookupService.getAllDoctors().subscribe((res) => {
       this.doctors = res.data ?? [];
+
+      if (this.isEdit && this.data?.doctorId) {
+        this.appointmentForm.patchValue({
+          doctorId: this.data.doctorId,
+        });
+
+        this.appointmentForm.get('doctorId')?.disable();
+      }
     });
   }
 
@@ -75,44 +100,39 @@ export class AppointmentDialogComponent implements OnInit {
   }
 
   submit(): void {
-    if (this.appointmentForm.invalid) {
-      this.appointmentForm.markAllAsTouched();
-      return;
-    }
+    if (this.appointmentForm.invalid) return;
 
-    const v = this.appointmentForm.value;
-    const [h, m] = v.appointmentTime.split(':');
-
-    const date = new Date(v.appointmentDate);
-    date.setHours(+h, +m, 0, 0);
+    const v = this.appointmentForm.getRawValue();
 
     const payload = {
       doctorId: v.doctorId,
       checkupType: v.checkupType,
-      appointmentDate: date.toISOString().split('T')[0],
+      appointmentDate: this.toLocalDateString(v.appointmentDate),
       appointmentTime: `${v.appointmentTime}:00`,
     };
 
-    this.appointmentService.book(payload).subscribe({
+    const request$ = this.isEdit
+      ? this.appointmentService.update(this.appointmentId, payload)
+      : this.appointmentService.book(payload);
+
+    request$.subscribe({
       next: () => {
-        this.snackBar.open('Appointment booked successfully', 'Close', {
+        this.snackBar.open(this.isEdit ? 'Appointment updated' : 'Appointment booked', 'Close', {
           duration: 2000,
-          panelClass: ['success-snackbar'],
         });
         this.dialogRef.close(true);
       },
       error: (err) => {
-        const msg =
-          err?.error?.errors?.[0] ||
-          err?.error?.message ||
-          'Failed to book appointment';
-
-        this.snackBar.open(msg, 'Close', {
-          duration: 3000,
-          panelClass: ['error-snackbar'],
-        });
+        this.snackBar.open(err?.error?.message || 'Action failed', 'Close', { duration: 3000 });
       },
     });
+  }
+
+  private toLocalDateString(date: Date): string {
+    const y = date.getFullYear();
+    const m = (date.getMonth() + 1).toString().padStart(2, '0');
+    const d = date.getDate().toString().padStart(2, '0');
+    return `${y}-${m}-${d}`;
   }
 
   close(): void {

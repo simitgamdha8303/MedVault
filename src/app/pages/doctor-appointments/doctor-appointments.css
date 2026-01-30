@@ -6,7 +6,7 @@
   margin-bottom: 20px;
 }
 
-/* Table Card */
+/* Card */
 .table-card {
   background: #fff;
   border-radius: 14px;
@@ -20,7 +20,7 @@
   border-collapse: collapse;
 }
 
-/* Table Cells */
+/* Cells */
 .appointments-table th,
 .appointments-table td {
   padding: 14px 16px;
@@ -30,7 +30,7 @@
   vertical-align: middle;
 }
 
-/* Table Header */
+/* Header */
 .appointments-table thead {
   background: #f4f6f8;
 }
@@ -40,32 +40,13 @@
   color: #555;
 }
 
-/* Row Hover */
+/* Row hover */
 .appointments-table tbody tr {
   transition: background 0.2s ease;
 }
 
 .appointments-table tbody tr:hover {
   background: #f9fbff;
-}
-
-/* 🔑 Uniform Cell Centering */
-.cell-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-/* Doctor Cell */
-.type {
-  gap: 8px;
-  font-weight: 500;
-}
-
-.type-icon {
-  color: #1565c0;
-  font-size: 20px;
 }
 
 /* Status Badge */
@@ -75,9 +56,10 @@
   border-radius: 12px;
   font-size: 12px;
   font-weight: 500;
+  min-width: 90px;
 }
 
-/* Status Colors */
+/* Status colors */
 .badge.pending {
   background: #fff3cd;
   color: #856404;
@@ -88,45 +70,39 @@
   color: #137333;
 }
 
+.badge.completed {
+  background: #e3f2fd;
+  color: #0d47a1;
+}
+
 .badge.cancelled {
   background: #fdecea;
   color: #b71c1c;
 }
 
-/* Empty State */
+/* Actions */
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Icon buttons */
+.actions button {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.actions button:hover {
+  transform: scale(1.1);
+}
+
+/* Empty state */
 .empty {
   text-align: center;
   padding: 30px;
   color: #777;
   font-size: 14px;
-}
-
-.dialog-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-}
-
-.dialog-content {
-  display: grid;
-  gap: 16px;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.actions {
-  gap: 8px;
-}
-
-.btnPrimary {
-  color: #1565c0;
-}
-
-.btnDanger {
-  color: #ce0d09;
 }
 
 /* Responsive */
@@ -135,5 +111,9 @@
   .appointments-table td {
     padding: 12px 10px;
     font-size: 13px;
+  }
+
+  .actions {
+    gap: 4px;
   }
 }

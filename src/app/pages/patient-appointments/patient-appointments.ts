@@ -45,4 +45,31 @@ export class PatientAppointments implements OnInit {
       if (refresh) this.loadAppointments();
     });
   }
+
+  openEditDialog(appointment: any): void {
+    const dialogRef = this.dialog.open(AppointmentDialogComponent, {
+      width: '520px',
+      disableClose: true,
+      data: appointment, 
+    });
+
+    dialogRef.afterClosed().subscribe((refresh) => {
+      if (refresh) this.loadAppointments();
+    });
+  }
+
+  deleteAppointment(id: number): void {
+    if (!confirm('Are you sure you want to delete this appointment?')) return;
+
+    this.appointmentService.delete(id).subscribe({
+      next: () => {
+        this.snackBar.open('Appointment deleted', 'Close', { duration: 2000 });
+        this.loadAppointments();
+      },
+      error: () =>
+        this.snackBar.open('Failed to delete appointment', 'Close', {
+          duration: 2000,
+        }),
+    });
+  }
 }

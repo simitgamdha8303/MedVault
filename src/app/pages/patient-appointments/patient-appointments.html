@@ -18,6 +18,7 @@
         <th>Date</th>
         <th>Time</th>
         <th>Status</th>
+        <th>Actions</th>
       </tr>
     </thead>
 
@@ -30,15 +31,44 @@
           </div>
         </td>
 
-        <td><div class="cell-center">{{ a.checkupTypeValue }}</div></td>
-        <td><div class="cell-center">{{ a.appointmentDate | date:'dd MMM yyyy' }}</div></td>
-        <td><div class="cell-center">{{ a.appointmentTime }}</div></td>
+        <td>
+          <div class="cell-center">{{ a.checkupTypeValue }}</div>
+        </td>
+        <td>
+          <div class="cell-center">{{ a.appointmentDate | date : 'dd MMM yyyy' }}</div>
+        </td>
+        <td>
+          <div class="cell-center">{{ a.appointmentTime }}</div>
+        </td>
 
         <td>
           <div class="cell-center">
             <span class="badge" [ngClass]="a.statusValue.toLowerCase()">
               {{ a.statusValue }}
             </span>
+          </div>
+        </td>
+        <td>
+          <div class="cell-center actions">
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="openEditDialog(a)"
+              [disabled]="a.statusValue !== 'Pending'"
+              class="btnPrimary"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="deleteAppointment(a.id)"
+              [disabled]="a.statusValue === 'Confirmed'"
+              class="btnDanger"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
           </div>
         </td>
       </tr>

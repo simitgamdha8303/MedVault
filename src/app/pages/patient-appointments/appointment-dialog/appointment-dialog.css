@@ -9,6 +9,12 @@
   display: grid;
   gap: 16px;
 }
+.readonly-field {
+  padding: 12px;
+  background: #f5f7fa;
+  border-radius: 8px;
+  font-size: 14px;
+}
 
 .full-width {
   width: 100%;
