@@ -97,12 +97,40 @@
   transform: scale(1.1);
 }
 
+.no-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  color: #9e9e9e;
+  font-size: 18px;
+}
+
 /* Empty state */
 .empty {
   text-align: center;
   padding: 30px;
   color: #777;
   font-size: 14px;
+}
+
+/* 🔑 Uniform Cell Centering */
+.cell-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* Doctor Cell */
+.type {
+  gap: 8px;
+  font-weight: 500;
+}
+
+.type-icon {
+  color: var(--primary);
+  font-size: 20px;
 }
 
 /* Responsive */

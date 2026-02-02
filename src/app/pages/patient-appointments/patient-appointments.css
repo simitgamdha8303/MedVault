@@ -129,6 +129,15 @@
   color: #ce0d09;
 }
 
+button[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed !important;
+}
+
+button[disabled]:hover {
+  background: transparent !important;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .appointments-table th,

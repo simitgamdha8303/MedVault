@@ -50,6 +50,7 @@
         </td>
         <td>
           <div class="cell-center actions">
+
             <button
               mat-icon-button
               color="primary"
@@ -64,7 +65,7 @@
               mat-icon-button
               color="warn"
               (click)="deleteAppointment(a.id)"
-              [disabled]="a.statusValue === 'Confirmed'"
+              [disabled]="a.statusValue !== 'Pending'"
               class="btnDanger"
             >
               <mat-icon>delete</mat-icon>

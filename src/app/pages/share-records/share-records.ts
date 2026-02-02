@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { QrShareService } from '../../services/qr-share.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ShareRecordsDialog } from './share-records-dialog/share-records-dialog';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-share-records',
@@ -18,12 +19,17 @@ export class ShareRecords implements OnInit {
   private dialog = inject(MatDialog);
   private qrShareService = inject(QrShareService);
   private snackBar = inject(MatSnackBar);
+  private notificationService = inject(NotificationService);
 
   qrShares = signal<any[]>([]);
   loading = signal(false);
 
   ngOnInit(): void {
     this.loadQrShares();
+
+    this.notificationService.qrShareUpdated$.subscribe(() => {
+      this.loadQrShares();
+    });
   }
 
   loadQrShares() {
@@ -66,10 +72,7 @@ export class ShareRecords implements OnInit {
         this.loadQrShares();
       },
       error: (err) => {
-        const message =
-          err?.error?.Errors?.[0] ||
-          err?.error?.Message ||
-          'Something went wrong';
+        const message = err?.error?.Errors?.[0] || err?.error?.Message || 'Something went wrong';
 
         this.snackBar.open(message, 'Close', {
           duration: 2000,

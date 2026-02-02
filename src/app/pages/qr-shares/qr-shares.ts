@@ -6,6 +6,7 @@ import { QrShareService } from '../../services/qr-share.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { QrViewDialog } from './qr-view-dialog/qr-view-dialog';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-qr-shares',
@@ -17,12 +18,17 @@ export class QrShares {
   private qrShareService = inject(QrShareService);
   private snackBar = inject(MatSnackBar);
   private dialog = inject(MatDialog);
+  private notificationService = inject(NotificationService);
 
   qrShares = signal<any[]>([]);
   loading = signal(false);
 
   ngOnInit(): void {
     this.loadQrShares();
+
+    this.notificationService.qrShareUpdated$.subscribe(() => {
+      this.loadQrShares();
+    });
   }
 
   loadQrShares() {
@@ -46,7 +52,7 @@ export class QrShares {
 
         this.dialog.open(QrViewDialog, {
           width: '340px',
-          data: { imageUrl,  qrId },
+          data: { imageUrl, qrId },
         });
       },
       error: (err) => {

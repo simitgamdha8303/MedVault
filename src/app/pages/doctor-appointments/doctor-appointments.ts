@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppointmentService } from '../../services/appointment.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-doctor-appointments',
@@ -15,11 +16,17 @@ import { AppointmentService } from '../../services/appointment.service';
 export class DoctorAppointments implements OnInit {
   private appointmentService = inject(AppointmentService);
   private snackBar = inject(MatSnackBar);
+  private notificationService = inject(NotificationService);
 
   appointments = signal<any[]>([]);
 
   ngOnInit(): void {
     this.loadAppointments();
+
+    
+  this.notificationService.appointmentUpdated$.subscribe(() => {
+    this.loadAppointments();
+  });
   }
 
   loadAppointments(): void {

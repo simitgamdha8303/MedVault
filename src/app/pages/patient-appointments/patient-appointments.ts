@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AppointmentService } from '../../services/appointment.service';
 import { AppointmentDialogComponent } from './appointment-dialog/appointment-dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-patient-appointments',
@@ -18,11 +19,16 @@ export class PatientAppointments implements OnInit {
   private dialog = inject(MatDialog);
   private appointmentService = inject(AppointmentService);
   private snackBar = inject(MatSnackBar);
+  private notificationService = inject(NotificationService);
 
   appointments = signal<any[]>([]);
 
   ngOnInit(): void {
     this.loadAppointments();
+
+    this.notificationService.appointmentUpdated$.subscribe(() => {
+      this.loadAppointments();
+    });
   }
 
   loadAppointments(): void {
@@ -50,7 +56,7 @@ export class PatientAppointments implements OnInit {
     const dialogRef = this.dialog.open(AppointmentDialogComponent, {
       width: '520px',
       disableClose: true,
-      data: appointment, 
+      data: appointment,
     });
 
     dialogRef.afterClosed().subscribe((refresh) => {
