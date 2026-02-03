@@ -3,6 +3,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Chart, TooltipItem } from 'chart.js/auto';
 import { DashboardService } from '../../services/dashboard.service';
 import { Subscription } from 'rxjs';
+import { NotificationService } from '../../services/notification.service';
 // import { Medicaltimeline } from '../medicaltimeline/medicaltimeline';
 
 type VisitChartFilter = 'current-month' | 'last-3-months' | 'current-year' | 'last-year';
@@ -23,11 +24,17 @@ export class Dashboard implements OnInit {
   readonly visitChartData = signal<any[]>([]);
 
   private dashboardService = inject(DashboardService);
+    private notificationService = inject(NotificationService);
   private chart?: Chart;
 
   ngOnInit() {
     this.loadSummary();
     this.loadVisitChart();
+
+     this.notificationService.appointmentUpdated$.subscribe(() => {
+      this.loadSummary();
+      this.loadVisitChart();
+    });
   }
 
   loadSummary() {

@@ -23,17 +23,15 @@ export class DoctorAppointments implements OnInit {
   ngOnInit(): void {
     this.loadAppointments();
 
-    
-  this.notificationService.appointmentUpdated$.subscribe(() => {
-    this.loadAppointments();
-  });
+    this.notificationService.appointmentUpdated$.subscribe(() => {
+      this.loadAppointments();
+    });
   }
 
   loadAppointments(): void {
     this.appointmentService.getDoctorAppointments().subscribe({
-      next: res => this.appointments.set(res.data ?? []),
-      error: () =>
-        this.snackBar.open('Failed to load appointments', 'Close', { duration: 2000 }),
+      next: (res) => this.appointments.set(res.data ?? []),
+      error: () => this.snackBar.open('Failed to load appointments', 'Close', { duration: 2000 }),
     });
   }
 
@@ -63,5 +61,15 @@ export class DoctorAppointments implements OnInit {
       this.snackBar.open('Appointment cancelled', 'Close', { duration: 2000 });
       this.loadAppointments();
     });
+  }
+
+  canComplete(appointmentDate: string | Date): boolean {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const apptDate = new Date(appointmentDate);
+    apptDate.setHours(0, 0, 0, 0);
+
+    return apptDate <= today;
   }
 }

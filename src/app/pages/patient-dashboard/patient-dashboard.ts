@@ -5,6 +5,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { ReminderService } from '../../services/reminder.service';
 import { DashboardService } from '../../services/dashboard.service';
 import { Chart, TooltipItem } from 'chart.js/auto';
+import { NotificationService } from '../../services/notification.service';
 type VisitChartFilter = 'current-month' | 'last-3-months' | 'current-year' | 'last-year';
 
 interface Reminder {
@@ -37,6 +38,7 @@ export class PatientDashboard implements OnInit {
 
   private reminderService = inject(ReminderService);
   private dashboardService = inject(DashboardService);
+  private notificationService = inject(NotificationService);
 
   private chart?: Chart;
 
@@ -52,6 +54,11 @@ export class PatientDashboard implements OnInit {
     setInterval(() => {
       this.now.set(new Date());
     }, 1000);
+
+    this.notificationService.appointmentUpdated$.subscribe(() => {
+      this.loadDashboardData();
+      this.loadVisitChart();
+    });
   }
 
   loadDashboardData() {

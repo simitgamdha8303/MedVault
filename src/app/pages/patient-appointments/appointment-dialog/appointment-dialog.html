@@ -10,7 +10,6 @@
 
 <form [formGroup]="appointmentForm" (ngSubmit)="submit()">
   <mat-dialog-content class="dialog-content">
-
     <mat-form-field *ngIf="!isEdit" appearance="outline" class="full-width">
       <mat-label>Doctor</mat-label>
       <mat-select formControlName="doctorId">
@@ -41,11 +40,16 @@
         [matDatepicker]="dp"
         aria-label="appointmentDate"
         formControlName="appointmentDate"
+        [min]="today"
       />
       <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
       <mat-datepicker #dp></mat-datepicker>
       <mat-error *ngIf="appointmentForm.get('appointmentDate')?.hasError('required')">
         Date is required
+      </mat-error>
+
+      <mat-error *ngIf="appointmentForm.get('appointmentDate')?.hasError('pastDate')">
+        You cannot book an appointment in the past
       </mat-error>
     </mat-form-field>
 

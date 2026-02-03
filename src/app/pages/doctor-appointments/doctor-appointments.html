@@ -17,7 +17,7 @@
 
     <tbody>
       <tr *ngFor="let a of appointments()">
-          <td>
+        <td>
           <div class="cell-center type">
             <mat-icon class="type-icon">person</mat-icon>
             {{ a.patientName }}
@@ -58,6 +58,7 @@
             mat-icon-button
             color="primary"
             *ngIf="a.statusValue === 'Confirmed'"
+            [disabled]="!canComplete(a.appointmentDate)"
             (click)="complete(a.id)"
           >
             <mat-icon>done_all</mat-icon>

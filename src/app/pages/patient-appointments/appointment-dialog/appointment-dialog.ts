@@ -50,7 +50,7 @@ export class AppointmentDialogComponent implements OnInit {
   appointmentForm: FormGroup = this.fb.group({
     doctorId: [null, Validators.required],
     checkupType: [null, Validators.required],
-    appointmentDate: [null, Validators.required],
+    appointmentDate: [null, [Validators.required, this.noPastDateValidator()]],
     appointmentTime: [
       '',
       [
@@ -133,6 +133,17 @@ export class AppointmentDialogComponent implements OnInit {
     const m = (date.getMonth() + 1).toString().padStart(2, '0');
     const d = date.getDate().toString().padStart(2, '0');
     return `${y}-${m}-${d}`;
+  }
+
+  private noPastDateValidator() {
+    return (control: any) => {
+      if (!control.value) return null;
+
+      const selected = new Date(control.value);
+      selected.setHours(0, 0, 0, 0);
+
+      return selected < this.today ? { pastDate: true } : null;
+    };
   }
 
   close(): void {
